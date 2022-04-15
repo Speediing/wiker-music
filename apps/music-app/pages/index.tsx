@@ -150,20 +150,7 @@ export default function Example() {
                   action="#"
                   className="mt-12 sm:max-w-lg sm:w-full sm:flex"
                 >
-                  <div className="min-w-0 flex-1">
-                    <label htmlFor="hero-email" className="sr-only">
-                      Email address
-                    </label>
-                    <input
-                      id="hero-email"
-                      type="email"
-                      className="block w-full border border-gray-300 rounded-md px-5 py-3 text-base text-gray-900 placeholder-gray-500 shadow-sm focus:border-rose-500 focus:ring-rose-500"
-                      placeholder="Enter your email"
-                    />
-                  </div>
-                  <div className="mt-4 sm:mt-0 sm:ml-3">
-                    <Button />
-                  </div>
+                  <Button text="Start Now!" />
                 </form>
                 <div className="mt-6">
                   <div className="inline-flex items-center divide-x divide-gray-300">
