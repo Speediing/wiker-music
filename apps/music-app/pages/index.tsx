@@ -1,4 +1,5 @@
 import { ChevronRightIcon, StarIcon } from "@heroicons/react/solid";
+import { useRouter } from "next/router";
 import { Button } from "ui";
 
 const stats = [
@@ -107,7 +108,13 @@ const footerNavigation = {
   ],
 };
 
-export default function Example() {
+export default function Index() {
+  const router = useRouter();
+
+  const handleClick = (e: any) => {
+    e.preventDefault();
+    router.push("/auth");
+  };
   return (
     <div className="bg-white">
       <main>
@@ -146,12 +153,9 @@ export default function Example() {
                     qui lorem cupidatat commodo.
                   </p>
                 </div>
-                <form
-                  action="#"
-                  className="mt-12 sm:max-w-lg sm:w-full sm:flex"
-                >
-                  <Button text="Start Now!" />
-                </form>
+                <div className="mt-12 sm:max-w-lg sm:w-full sm:flex">
+                  <Button onClick={handleClick} text="Start Now" />
+                </div>
                 <div className="mt-6">
                   <div className="inline-flex items-center divide-x divide-gray-300">
                     <div className="flex-shrink-0 flex pr-5">
