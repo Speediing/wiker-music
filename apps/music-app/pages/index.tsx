@@ -133,7 +133,7 @@ export default function Index() {
                 <div>
                   <a href="#" className="inline-flex space-x-4">
                     <span className="rounded bg-rose-50 px-2.5 py-1 text-xs font-semibold text-rose-500 tracking-wide uppercase">
-                      What's new
+                      What&apos;s new
                     </span>
                     <span className="inline-flex items-center text-sm font-medium text-rose-500 space-x-1">
                       <span>Just shipped version 0.1.0</span>
@@ -382,7 +382,7 @@ export default function Index() {
                 </dl>
                 <div className="mt-10">
                   <a href="#" className="text-base font-medium text-rose-500">
-                    Learn more about how we're changing the world&nbsp&rarr;
+                    Learn more about how we&apos;re changing the world&rarr;
                   </a>
                 </div>
               </div>
