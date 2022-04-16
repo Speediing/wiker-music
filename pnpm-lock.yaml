@@ -96,11 +96,13 @@ importers:
       '@types/react': ^17.0.37
       '@types/react-dom': ^17.0.11
       config: workspace:*
+      next: 12.0.8
       tsconfig: workspace:*
       typescript: ^4.5.3
     dependencies:
       '@headlessui/react': 1.5.0
       '@heroicons/react': 1.0.6
+      next: 12.0.8
     devDependencies:
       '@types/react': 17.0.44
       '@types/react-dom': 17.0.15
@@ -1748,6 +1750,52 @@ packages:
       escalade: 3.1.1
     dev: true
 
+  /next/12.0.8:
+    resolution: {integrity: sha512-g5c1Kuh1F8tSXJn2rVvzYBzqe9EXaR6+rY3/KrQ7y0D9FueRLfHI35wM0DRadDcPSc3+vncspfhYH3jnYE/KjA==}
+    engines: {node: '>=12.22.0'}
+    hasBin: true
+    peerDependencies:
+      fibers: '>= 3.1.0'
+      node-sass: ^4.0.0 || ^5.0.0 || ^6.0.0
+      react: ^17.0.2 || ^18.0.0-0
+      react-dom: ^17.0.2 || ^18.0.0-0
+      sass: ^1.3.0
+    peerDependenciesMeta:
+      fibers:
+        optional: true
+      node-sass:
+        optional: true
+      sass:
+        optional: true
+    dependencies:
+      '@next/env': 12.0.8
+      '@next/react-refresh-utils': 12.0.8_react-refresh@0.8.3
+      caniuse-lite: 1.0.30001332
+      jest-worker: 27.0.0-next.5
+      node-fetch: 2.6.1
+      postcss: 8.2.15
+      react-is: 17.0.2
+      react-refresh: 0.8.3
+      stream-browserify: 3.0.0
+      styled-jsx: 5.0.0-beta.6
+      use-subscription: 1.5.1
+    optionalDependencies:
+      '@next/swc-android-arm64': 12.0.8
+      '@next/swc-darwin-arm64': 12.0.8
+      '@next/swc-darwin-x64': 12.0.8
+      '@next/swc-linux-arm-gnueabihf': 12.0.8
+      '@next/swc-linux-arm64-gnu': 12.0.8
+      '@next/swc-linux-arm64-musl': 12.0.8
+      '@next/swc-linux-x64-gnu': 12.0.8
+      '@next/swc-linux-x64-musl': 12.0.8
+      '@next/swc-win32-arm64-msvc': 12.0.8
+      '@next/swc-win32-ia32-msvc': 12.0.8
+      '@next/swc-win32-x64-msvc': 12.0.8
+    transitivePeerDependencies:
+      - '@babel/core'
+      - webpack
+    dev: false
+
   /next/12.0.8_react-dom@17.0.2+react@17.0.2:
     resolution: {integrity: sha512-g5c1Kuh1F8tSXJn2rVvzYBzqe9EXaR6+rY3/KrQ7y0D9FueRLfHI35wM0DRadDcPSc3+vncspfhYH3jnYE/KjA==}
     engines: {node: '>=12.22.0'}
@@ -2312,6 +2360,26 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
+  /styled-jsx/5.0.0-beta.6:
+    resolution: {integrity: sha512-b1cM7Xyp2r1lsNpvoZ6wmTI8qxD0557vH2feHakNU8LMkzfJDgTQMul6O7sSYY0GxQ73pKEN69hCDp71w6Q0nA==}
+    engines: {node: '>= 12.0.0'}
+    peerDependencies:
+      '@babel/core': '*'
+      react: '>= 16.8.0 || 17.x.x || 18.x.x'
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
+    dependencies:
+      '@babel/plugin-syntax-jsx': 7.14.5
+      '@babel/types': 7.15.0
+      convert-source-map: 1.7.0
+      loader-utils: 1.2.3
+      source-map: 0.7.3
+      string-hash: 1.1.3
+      stylis: 3.5.4
+      stylis-rule-sheet: 0.0.10_stylis@3.5.4
+    dev: false
+
   /styled-jsx/5.0.0-beta.6_react@17.0.2:
     resolution: {integrity: sha512-b1cM7Xyp2r1lsNpvoZ6wmTI8qxD0557vH2feHakNU8LMkzfJDgTQMul6O7sSYY0GxQ73pKEN69hCDp71w6Q0nA==}
     engines: {node: '>= 12.0.0'}
@@ -2600,6 +2668,14 @@ packages:
     dependencies:
       punycode: 2.1.1
     dev: true
+
+  /use-subscription/1.5.1:
+    resolution: {integrity: sha512-Xv2a1P/yReAjAbhylMfFplFKj9GssgTwN7RlcTxBujFQcloStWNDQdc4g4NRWH9xS4i/FDk04vQBptAXoF3VcA==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0
+    dependencies:
+      object-assign: 4.1.1
+    dev: false
 
   /use-subscription/1.5.1_react@17.0.2:
     resolution: {integrity: sha512-Xv2a1P/yReAjAbhylMfFplFKj9GssgTwN7RlcTxBujFQcloStWNDQdc4g4NRWH9xS4i/FDk04vQBptAXoF3VcA==}
