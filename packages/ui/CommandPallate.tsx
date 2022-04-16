@@ -7,7 +7,7 @@ const people = [
   // More people...
 ];
 
-function classNames(...classes) {
+function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
 
@@ -51,8 +51,9 @@ export const CommandPallate = () => {
     //   >
     <Combobox
       as="div"
+      value="asdf"
       className="mx-auto max-w-xl focus:ring-rose-500 transform divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all"
-      onChange={(person) => (window.location = person.url)}
+      onChange={() => false}
     >
       <div className="relative">
         <SearchIcon
@@ -62,7 +63,7 @@ export const CommandPallate = () => {
         <Combobox.Input
           className="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-800 placeholder-gray-400 focus:ring-0 sm:text-sm"
           placeholder="Search..."
-          onChange={(event) => setQuery(event.target.value)}
+          onChange={() => false}
         />
       </div>
 
