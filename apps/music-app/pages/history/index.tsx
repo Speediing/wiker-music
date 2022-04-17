@@ -30,9 +30,10 @@ function History() {
   ];
 
   React.useEffect(() => {
-    if (router?.query?.userToken && router?.query?.refreshToken) {
-      localStorage?.setItem("userToken", router?.query?.userToken);
-      localStorage?.setItem("refreshToken", router?.query?.refreshToken);
+    let { userToken, refreshToken } = router?.query;
+    if (userToken && refreshToken) {
+      localStorage?.setItem("userToken", userToken.toString());
+      localStorage?.setItem("refreshToken", refreshToken.toString());
       localStorage?.setItem("lastRefresh", new Date().toISOString());
     }
   }, [router]);
