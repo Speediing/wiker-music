@@ -13,9 +13,9 @@ export default async function handler(
         Authorization:
           "Basic " +
           Buffer.from(
-            process.env.SPOTIFY_CLIENT_ID +
+            process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID +
               ":" +
-              process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID
+              process.env.SPOTIFY_CLIENT_SECRET
           ).toString("base64"),
       },
       body: new URLSearchParams({
