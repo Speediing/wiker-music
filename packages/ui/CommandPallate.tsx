@@ -51,7 +51,7 @@ export const CommandPallate = () => {
     //   >
     <Combobox
       as="div"
-      value="asdf"
+      value=""
       className="mx-auto max-w-xl focus:ring-rose-500 transform divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all"
       onChange={() => false}
     >

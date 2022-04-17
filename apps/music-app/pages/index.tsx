@@ -113,7 +113,7 @@ export default function Index() {
 
   const handleClick = (e: any) => {
     e.preventDefault();
-    router.push("/auth");
+    router.push("/podcast");
   };
   return (
     <div className="bg-white">
