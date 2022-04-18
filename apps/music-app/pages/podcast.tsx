@@ -80,14 +80,14 @@ export default function Podcast({ data }: any) {
           <header className="py-10">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <h1 className="text-3xl font-bold text-white">
-                Podcast Results for{" "}
+                Podcast Results for {data.artistName}
               </h1>
             </div>
           </header>
           <main className="max-w-7xl mx-auto pb-12 px-4 sm:px-6 lg:px-8">
             <div className="bg-white shadow overflow-hidden sm:rounded-md">
               <ul role="list" className="divide-y divide-gray-200">
-                {data.map((podcast: any) => (
+                {data.eps.map((podcast: any) => (
                   <li key={podcast.uri}>
                     <a
                       href={podcast.external_urls.spotify}

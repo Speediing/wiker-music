@@ -5,6 +5,7 @@ import {
   StarIcon,
 } from "@heroicons/react/solid";
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import useSWR from "swr";
@@ -86,9 +87,16 @@ function History() {
                           </dd>
                           <dt className="sr-only">Role</dt>
                           <dd className="mt-3">
-                            <span className="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">
-                              {track.artists[0].name}
-                            </span>
+                            <Link
+                              href={`podcast?search=${track.artists[0].name}`}
+                            >
+                              <a
+                                href={`podcast?search=${track.artists[0].name}`}
+                                className="px-2 py-1 text-rose-800 text-xs font-medium bg-rose-100 rounded-full"
+                              >
+                                Podcasts
+                              </a>
+                            </Link>
                           </dd>
                         </dl>
                       </div>

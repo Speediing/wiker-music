@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { formatArtist } from "../../utils/helpers/rymHelper";
+import { formatWikipediaName } from "../../utils/helpers/wikipediaHelper";
 import { Redis } from "@upstash/redis";
 import { refreshTokenQuery } from "../../utils/helpers/authHelpers";
 import { cache } from "swr/dist/utils/config";
@@ -37,63 +38,73 @@ export default async function handler(
     `https://api.spotify.com/v1/search?type=artist&q=${req.query.search}`,
     { headers: { Authorization: `Bearer ${token}` } }
   );
-  console.log(searchData.data.artists.items[0]);
-  console.log(
-    `https://rateyourmusic.com/artist/${formatArtist(
-      searchData.data.artists.items[0].name
-    )}`
-  );
+
   let artistName = searchData.data.artists.items[0].name;
   let cachedArtist: any = await redis.get(artistName);
   let names: string[] = [];
   let roles: string[] = [];
-  console.log(cachedArtist);
   if (cachedArtist) {
     console.log("hehe got the cache");
     names = cachedArtist?.names;
     roles = cachedArtist?.roles;
   }
-  const { data } = await axios.get(
-    `https://en.wikipedia.org/wiki/Tyler,_the_Creator`
-  );
-  console.log("please", data);
-  throw Error(`error, ${JSON.stringify(data)}`);
   if (!cachedArtist) {
-    const { data } = await axios.get(
-      `https://rateyourmusic.com/artist/${formatArtist(
-        searchData.data.artists.items[0].name
-      )}`
+    console.log(
+      `https://en.wikipedia.org/wiki/${formatWikipediaName(artistName)}`
     );
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    console.log("after");
-    const $ = cheerio.load(data);
+    let { data } = await axios.get(
+      `https://en.wikipedia.org/wiki/${formatWikipediaName(artistName)}`
+    );
+    let $ = cheerio.load(data);
+    if (
+      $("#mw-content-text > div.mw-parser-output > p")
+        .text()
+        .includes("may refer to")
+    ) {
+      let bandData = await axios.get(
+        `https://en.wikipedia.org/wiki/${artistName}_(band)`
+      );
+      console.log(`https://en.wikipedia.org/wiki/${artistName}_(band)`);
+      data = bandData.data;
+      $ = cheerio.load(data);
+    }
+
     let artistIndex = 0;
     let found = false;
     $(
-      "#column_container_left > div > div.section_artist_info > div.artist_info > div.artist_info_main > div"
+      "#mw-content-text > div.mw-parser-output > table.infobox.vcard.plainlist > tbody > tr"
     ).each((_idx: any, el: any) => {
-      if (!found) {
-        artistIndex += 1;
-        if ($(el).text() === "Members") found = true;
-      }
+      if (!found) artistIndex += 1;
+      $(el)
+        .children()
+        .each((_idx: any, el: any) => {
+          console.log($(el).text());
+          if (!found && $(el).text() === "Members") {
+            found = true;
+          }
+        });
     });
-    console.log(artistIndex);
+    console.log(
+      `#mw-content-text > div.mw-parser-output > table.infobox.vcard.plainlist > tbody > tr:nth-child(${artistIndex}) > td `
+    );
+
     $(
-      `#column_container_left > div > div.section_artist_info > div.artist_info > div.artist_info_main > div:nth-child(${
-        artistIndex + 1
-      }) > span > a`
+      `#mw-content-text > div.mw-parser-output > table.infobox.vcard.plainlist > tbody > tr:nth-child(${artistIndex}) > td > div > ul > li`
     ).each((_idx: any, el: any) => {
-      const postTitle = $(el).text();
-      names.push(postTitle);
+      names.push($(el).text());
     });
-    let fullTitle = $(
-      `#column_container_left > div > div.section_artist_info > div.artist_info > div.artist_info_main > div:nth-child(${
-        artistIndex + 1
-      }) > span`
-    ).text();
-    roles = fullTitle.replaceAll("\n", "").match(/\((.*?)\)/gm);
+    if (names.length === 0) {
+      $(
+        `#mw-content-text > div.mw-parser-output > table.infobox.vcard.plainlist > tbody > tr:nth-child(${artistIndex}) > td > ul > li`
+      ).each((_idx: any, el: any) => {
+        names.push($(el).text());
+      });
+    }
+    console.log(names);
+    // roles = fullTitle.replaceAll("\n", "").match(/\((.*?)\)/gm);
+    roles = [];
+
+    if (!found) names.push(artistName);
     await redis.set(
       artistName,
       JSON.stringify({ names: names, roles: roles }),
@@ -109,29 +120,23 @@ export default async function handler(
       })
     );
   });
-
   let proms = await Promise.all(urls);
   let eps: any = [];
 
   proms.forEach((prom: any, index: number) => {
     prom.data.episodes.items.forEach((ep: any) => {
-      eps.push({ ...ep, artist: names[index], role: roles[index] });
+      eps.push({ ...ep, artist: names[index], role: roles[index] || "" });
     });
   });
-  //   console.log(postTitles);
-  //   console.log(fullTitle);
 
-  // console.log(eps.length);
-  //   eps.forEach((ep: any) => {
-  //     console.log(ep);
-  //   });
-  res.status(200).json(
-    eps
+  res.status(200).json({
+    artistName,
+    eps: eps
       .sort((a: any, b: any) => b.release_date.localeCompare(a.release_date))
       .filter(
         (value: any, index: number, self: any) =>
           index === self.findIndex((t: any) => t.uri === value.uri)
       )
-      .filter((ep: any) => ep.description.includes(ep.artist))
-  );
+      .filter((ep: any) => ep.description.includes(ep.artist || artistName)),
+  });
 }
