@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import useSWR from "swr";
 import { Nav } from "ui";
+import { formatAlbum, formatArtist } from "../../utils/helpers/rymHelper";
 import { isLoggedIn } from "../podcast";
 const queryString = require("query-string");
 export const loginUrl =
@@ -25,8 +26,8 @@ function History() {
   const { data, error } = useSWR("me/player/recently-played?limit=50");
 
   const options = [
-    { name: "History", href: "history" },
-    { name: "Podcasts", href: "podcast" },
+    { name: "History", href: "history", current: true },
+    { name: "Podcasts", href: "podcast", current: false },
   ];
 
   React.useEffect(() => {
@@ -109,20 +110,9 @@ function History() {
                           </div>
                           <div className="-ml-px w-0 flex-1 flex">
                             <a
-                              href={`https://rateyourmusic.com/release/album/${track?.artists[0].name
-                                .toLowerCase()
-                                .replaceAll(".", "_")
-                                .replaceAll(",", "")
-                                .replaceAll("&", "and")
-                                .split(" ")
-                                .join("-")}/${track.album.name
-                                .toLowerCase()
-                                .replaceAll(".", "_")
-                                .replaceAll(",", "")
-                                .replaceAll("&", "and")
-                                .replaceAll(" (deluxe edition)", "")
-                                .split(" ")
-                                .join("-")}/`}
+                              href={`https://rateyourmusic.com/release/album/${formatArtist(
+                                track?.artists[0].name
+                              )}/${formatAlbum(track.album.name)}/`}
                               className="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-zinc-300 font-medium border border-transparent rounded-br-lg hover:text-zinc-100"
                             >
                               <StarIcon

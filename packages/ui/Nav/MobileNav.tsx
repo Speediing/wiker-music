@@ -16,7 +16,7 @@ function MobileNav({ options, loggedIn }: MobileNavProps) {
       <div className="px-2 pt-2 pb-3 space-y-1">
         {/* Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" */}
         {options.map((option, index) =>
-          index === 0 ? (
+          option.current ? (
             <Link href={option.href} key={option?.name}>
               <Disclosure.Button
                 as="a"

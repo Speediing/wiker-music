@@ -9,6 +9,7 @@ import MobileNav from "./MobileNav";
 export type NavOption = {
   name: string;
   href: string;
+  current: boolean;
 };
 export interface NavProps {
   options: NavOption[];
@@ -37,8 +38,8 @@ export const Nav = ({ options, loggedIn, loginUrl }: NavProps) => {
                     />
                   </div>
                   <div className="hidden lg:block lg:ml-6">
-                    {options.map((option, index) =>
-                      index === 0 ? (
+                    {options.map((option) =>
+                      option.current ? (
                         <Link href={option.href} key={option?.name}>
                           <a
                             href={option.href}
