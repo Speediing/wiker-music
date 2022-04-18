@@ -11,7 +11,7 @@ import { motion } from "framer-motion";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { Button, CommandPallate, Nav, NavOption } from "ui";
+import { Button, Nav, NavOption } from "ui";
 import { loginUrl } from "./history";
 
 export const isLoggedIn = () => {
