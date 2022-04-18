@@ -46,7 +46,12 @@ function History() {
 
   return (
     <div className="bg-black min-h-screen h-full">
-      <Nav options={options} loggedIn={isLoggedIn()} loginUrl={loginUrl} />
+      <Nav
+        options={options}
+        loggedIn={isLoggedIn()}
+        loginUrl={loginUrl}
+        showSearch={true}
+      />
       <header className="py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-3xl font-bold text-white">Listening History</h1>

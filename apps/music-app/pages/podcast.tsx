@@ -7,6 +7,7 @@ import {
   MusicNoteIcon,
   UsersIcon,
 } from "@heroicons/react/solid";
+import { motion } from "framer-motion";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -44,17 +45,19 @@ export default function Podcast({ data }: any) {
   ];
   const router = useRouter();
   const [search, setSearch] = useState("");
-  // if (isLoggedIn()) {
-  //   options.unshift({ name: "History", href: "history", current: false });
-  // }
 
   return (
     <div className="bg-black h-screen">
-      <Nav options={options} loggedIn={isLoggedIn()} loginUrl={loginUrl} />
+      <Nav
+        options={options}
+        loggedIn={isLoggedIn()}
+        loginUrl={loginUrl}
+        showSearch={false}
+      />
       {!data && (
         <>
-          <div className="mt-10 flex justify-center">
-            <div className="max-w-5xl">
+          <div className="mt-24 flex justify-center">
+            <div className=" w-96 ">
               <label htmlFor="email" className="sr-only text-white">
                 Search Here
               </label>
@@ -63,7 +66,7 @@ export default function Podcast({ data }: any) {
                 name="email"
                 id="email"
                 className="shadow-sm focus:ring-rose-500 bg-black text-white focus:border-rose-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                placeholder="you@example.com"
+                placeholder="Radiohead, The Strokes, ..."
                 onChange={(e) => setSearch(e.target.value)}
               />
             </div>
@@ -79,7 +82,7 @@ export default function Podcast({ data }: any) {
         </>
       )}
       {data && (
-        <>
+        <div>
           <header className="py-10">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <h1 className="text-3xl font-bold text-white">
@@ -88,33 +91,34 @@ export default function Podcast({ data }: any) {
             </div>
           </header>
           <main className="max-w-7xl mx-auto pb-12 px-4 sm:px-6 lg:px-8">
-            <div className="bg-white shadow overflow-hidden sm:rounded-md">
-              <ul role="list" className="divide-y divide-gray-200">
+            <motion.div
+              className="bg-zinc-900 rounded-lg shadow px-5 py-6 sm:px-6"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="bg-zinc-900 shadow overflow-hidden rounded-md"
+            >
+              <ul role="list" className="divide-y divide-gray-700">
                 {data.eps.map((podcast: any) => (
                   <li key={podcast.uri}>
                     <a
                       href={podcast.external_urls.spotify}
-                      className="block hover:bg-gray-50"
+                      className="block hover:bg-zinc-600"
                     >
                       <div className="flex items-center px-4 py-4 sm:px-6">
                         <div className="min-w-0 flex-1 flex items-center">
                           <div className="flex-shrink-0">
                             <img
-                              className="h-12 w-12 rounded-full"
+                              className="h-12 w-12 rounded-sm"
                               src={podcast.images[0].url}
                               alt=""
                             />
                           </div>
                           <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
                             <div>
-                              <p className="text-sm font-medium text-indigo-600 truncate">
+                              <p className="text-sm font-medium text-white truncate">
                                 {podcast.name}
                               </p>
-                              <p className="mt-2 flex items-center text-sm text-gray-500">
-                                {/* <MusicNoteIcon
-                                className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
-                                aria-hidden="true"
-                              /> */}
+                              <p className="mt-2 flex items-center text-sm text-gray-400">
                                 <span className="truncate">
                                   {podcast.description}
                                 </span>
@@ -122,13 +126,13 @@ export default function Podcast({ data }: any) {
                             </div>
                             <div className="hidden md:block">
                               <div>
-                                <p className="text-sm text-gray-900">
+                                <p className="text-sm text-gray-200">
                                   Released:
                                   <time dateTime={podcast.release_date}>
                                     {podcast.release_date}
                                   </time>
                                 </p>
-                                <p className="mt-2 flex items-center text-sm text-gray-500">
+                                <p className="mt-2 flex items-center text-sm text-gray-400">
                                   <MusicNoteIcon
                                     className="flex-shrink-0 mr-1.5 h-5 w-5 text-rose-400"
                                     aria-hidden="true"
@@ -150,9 +154,9 @@ export default function Podcast({ data }: any) {
                   </li>
                 ))}
               </ul>
-            </div>
+            </motion.div>
           </main>
-        </>
+        </div>
       )}
     </div>
   );

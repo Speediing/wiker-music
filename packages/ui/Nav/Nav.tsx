@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { SearchIcon } from "@heroicons/react/solid";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
@@ -15,8 +15,10 @@ export interface NavProps {
   options: NavOption[];
   loggedIn: boolean;
   loginUrl: string;
+  showSearch: boolean;
 }
-export const Nav = ({ options, loggedIn, loginUrl }: NavProps) => {
+export const Nav = ({ options, loggedIn, loginUrl, showSearch }: NavProps) => {
+  const [search, setSearch] = useState("");
   return (
     <Disclosure as="nav" className="bg-grey-900">
       {({ open }) => (
@@ -69,7 +71,7 @@ export const Nav = ({ options, loggedIn, loginUrl }: NavProps) => {
                     Log In
                   </a>
                 )}
-                {loggedIn && (
+                {showSearch && (
                   <div className="flex-1 flex justify-center px-2 lg:ml-6 lg:justify-end">
                     <div className="max-w-lg w-full lg:max-w-xs">
                       <label htmlFor="search" className="sr-only">
@@ -88,6 +90,18 @@ export const Nav = ({ options, loggedIn, loginUrl }: NavProps) => {
                           className="block w-full pl-10 pr-3 py-2 border border-transparent rounded-md leading-5 bg-gray-700 text-gray-300 placeholder-gray-400 focus:outline-none focus:bg-white focus:border-white focus:ring-white focus:text-gray-900 sm:text-sm"
                           placeholder="Search"
                           type="search"
+                          onKeyPress={(ev) => {
+                            console.log(`Pressed keyCode ${ev.key}`);
+                            if (ev.key === "Enter") {
+                              // Do code here
+                              ev.preventDefault();
+                              window?.location.href = `/podcast?search=${search}`;
+                            }
+                          }}
+                          onChange={(e: any) => {
+                            e.preventDefault();
+                            setSearch(e.target.value);
+                          }}
                         />
                       </div>
                     </div>

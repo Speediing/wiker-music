@@ -161,7 +161,7 @@ export default async function handler(
       .filter(
         (value: any, index: number, self: any) =>
           index === self.findIndex((t: any) => t.uri === value.uri)
-      ),
-    //   .filter((ep: any) => ep.description.includes(ep.artist || artistName)),
+      )
+      .filter((ep: any) => ep.description.includes(ep.artist || artistName)),
   });
 }
