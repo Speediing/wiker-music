@@ -20,18 +20,21 @@ export const isLoggedIn = () => {
   return false;
 };
 export async function getServerSideProps(context: any) {
-  console.log(context.query);
-  // console.log("getServerSideProps");
   if (!context.query.search) {
     return {
-      props: {}, // will be passed to the page component as props
+      props: {},
     };
   }
-  let test = await fetch(
+  let podcasts = await fetch(
     `${process.env.NEXT_PUBLIC_HOSTNAME}/api/podcastSearch?search=${context.query.search}`
   );
-  let data = await test.json();
-  return { props: { data } };
+  let data;
+  try {
+    data = await podcasts.json();
+    return { props: { data } };
+  } catch (error) {
+    return { props: { data: [] } };
+  }
 }
 
 export default function Podcast({ data }: any) {
@@ -130,7 +133,7 @@ export default function Podcast({ data }: any) {
                                     className="flex-shrink-0 mr-1.5 h-5 w-5 text-rose-400"
                                     aria-hidden="true"
                                   />
-                                  {`${podcast.artist} - ${podcast.role}`}
+                                  {`${podcast.artist} ${podcast.role}`}
                                 </p>
                               </div>
                             </div>

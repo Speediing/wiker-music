@@ -52,14 +52,23 @@ export default async function handler(
     console.log(
       `https://en.wikipedia.org/wiki/${formatWikipediaName(artistName)}`
     );
-    let { data } = await axios.get(
+    let { data, status } = await axios.get(
       `https://en.wikipedia.org/wiki/${formatWikipediaName(artistName)}`
     );
+    if (status === 404)
+      res.status(500).json({
+        error: "Artist not found",
+      });
+    {
+    }
     let $ = cheerio.load(data);
     if (
       $("#mw-content-text > div.mw-parser-output > p")
         .text()
-        .includes("may refer to")
+        .includes("may refer to") ||
+      $("#mw-content-text > div.mw-parser-output > div:nth-child(4)")
+        .text()
+        .includes("For other uses, see")
     ) {
       let bandData = await axios.get(
         `https://en.wikipedia.org/wiki/${artistName}_(band)`
@@ -93,9 +102,16 @@ export default async function handler(
     ).each((_idx: any, el: any) => {
       names.push($(el).text());
     });
-    if (names.length === 0) {
+    if (names.length === 0 && found) {
       $(
         `#mw-content-text > div.mw-parser-output > table.infobox.vcard.plainlist > tbody > tr:nth-child(${artistIndex}) > td > ul > li`
+      ).each((_idx: any, el: any) => {
+        names.push($(el).text());
+      });
+    }
+    if (names.length === 0 && found) {
+      $(
+        `#mw-content-text > div.mw-parser-output > table > tbody > tr:nth-child(8) > td`
       ).each((_idx: any, el: any) => {
         names.push($(el).text());
       });
@@ -120,10 +136,19 @@ export default async function handler(
       })
     );
   });
-  let proms = await Promise.all(urls);
+  let proms: any = [];
+  try {
+    proms = await Promise.allSettled(urls);
+  } catch (error) {
+    console.log(error);
+  }
+
+  let completedReqs = proms
+    .filter((x: any) => x.status === "fulfilled")
+    .map((x: any) => x.value);
   let eps: any = [];
 
-  proms.forEach((prom: any, index: number) => {
+  completedReqs.forEach((prom: any, index: number) => {
     prom.data.episodes.items.forEach((ep: any) => {
       eps.push({ ...ep, artist: names[index], role: roles[index] || "" });
     });
@@ -136,7 +161,7 @@ export default async function handler(
       .filter(
         (value: any, index: number, self: any) =>
           index === self.findIndex((t: any) => t.uri === value.uri)
-      )
-      .filter((ep: any) => ep.description.includes(ep.artist || artistName)),
+      ),
+    //   .filter((ep: any) => ep.description.includes(ep.artist || artistName)),
   });
 }
