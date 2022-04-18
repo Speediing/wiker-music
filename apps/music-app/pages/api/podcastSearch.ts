@@ -1,10 +1,15 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { formatArtist } from "../../utils/helpers/rymHelper";
-import { formatWikipediaName } from "../../utils/helpers/wikipediaHelper";
-import { Redis } from "@upstash/redis";
-import { refreshTokenQuery } from "../../utils/helpers/authHelpers";
-import { cache } from "swr/dist/utils/config";
-const cheerio = require("cheerio");
+
+import {
+  createRedisClient,
+  getAccessTokenInRedis,
+} from "../../utils/helpers/redisHelpers";
+import {
+  getArtistNameFromSearch,
+  getPodcastEpisodesFromBandNames,
+} from "../../utils/helpers/spotifyHelpers";
+import { getBandNamesAndRolesFromWikipedia } from "../../utils/helpers/wikipediaHelper";
+
 const axios = require("axios");
 
 //   console.log(postTitles);
@@ -18,145 +23,42 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const redis = new Redis({
-    url: "https://usw2-awake-anemone-30070.upstash.io",
-    token: process.env.UPSTASH_SECRET || "",
-  });
-  let token = await redis.get("accessToken");
+  const redis = createRedisClient();
+  let accessToken = await getAccessTokenInRedis(redis);
 
-  if (!token) {
-    let refreshToken: string | null = await redis.get("refreshToken");
-    const test = await refreshTokenQuery(refreshToken || "");
-    if (test.access_token) {
-      token = test.access_token;
-      await redis.set("accessToken", test.access_token, {});
-      redis.expire("accessToken", test.expires_in - 100);
-    }
-  }
-
-  const searchData = await axios.get(
-    `https://api.spotify.com/v1/search?type=artist&q=${req.query.search}`,
-    { headers: { Authorization: `Bearer ${token}` } }
+  let artistName = await getArtistNameFromSearch(
+    req.query.search.toString(),
+    accessToken || ""
   );
 
-  let artistName = searchData.data.artists.items[0].name;
-  let cachedArtist: any = await redis.get(artistName);
+  let cachedArtistNames: any = await redis.get(artistName);
+
   let names: string[] = [];
   let roles: string[] = [];
-  if (cachedArtist) {
-    console.log("hehe got the cache");
-    names = cachedArtist?.names;
-    roles = cachedArtist?.roles;
-  }
-  if (!cachedArtist) {
-    console.log(
-      `https://en.wikipedia.org/wiki/${formatWikipediaName(artistName)}`
-    );
-    let { data, status } = await axios.get(
-      `https://en.wikipedia.org/wiki/${formatWikipediaName(artistName)}`
-    );
-    if (status === 404)
-      res.status(500).json({
-        error: "Artist not found",
-      });
-    {
-    }
-    let $ = cheerio.load(data);
-    if (
-      $("#mw-content-text > div.mw-parser-output > p")
-        .text()
-        .includes("may refer to") ||
-      $("#mw-content-text > div.mw-parser-output > div:nth-child(4)")
-        .text()
-        .includes("For other uses, see")
-    ) {
-      let bandData = await axios.get(
-        `https://en.wikipedia.org/wiki/${artistName}_(band)`
-      );
-      console.log(`https://en.wikipedia.org/wiki/${artistName}_(band)`);
-      data = bandData.data;
-      $ = cheerio.load(data);
-    }
-
-    let artistIndex = 0;
-    let found = false;
-    $(
-      "#mw-content-text > div.mw-parser-output > table.infobox.vcard.plainlist > tbody > tr"
-    ).each((_idx: any, el: any) => {
-      if (!found) artistIndex += 1;
-      $(el)
-        .children()
-        .each((_idx: any, el: any) => {
-          console.log($(el).text());
-          if (!found && $(el).text() === "Members") {
-            found = true;
-          }
-        });
-    });
-    console.log(
-      `#mw-content-text > div.mw-parser-output > table.infobox.vcard.plainlist > tbody > tr:nth-child(${artistIndex}) > td `
-    );
-
-    $(
-      `#mw-content-text > div.mw-parser-output > table.infobox.vcard.plainlist > tbody > tr:nth-child(${artistIndex}) > td > div > ul > li`
-    ).each((_idx: any, el: any) => {
-      names.push($(el).text());
-    });
-    if (names.length === 0 && found) {
-      $(
-        `#mw-content-text > div.mw-parser-output > table.infobox.vcard.plainlist > tbody > tr:nth-child(${artistIndex}) > td > ul > li`
-      ).each((_idx: any, el: any) => {
-        names.push($(el).text());
-      });
-    }
-    if (names.length === 0 && found) {
-      $(
-        `#mw-content-text > div.mw-parser-output > table > tbody > tr:nth-child(8) > td`
-      ).each((_idx: any, el: any) => {
-        names.push($(el).text());
-      });
-    }
-    console.log(names);
-    // roles = fullTitle.replaceAll("\n", "").match(/\((.*?)\)/gm);
-    roles = [];
-
-    if (!found) names.push(artistName);
+  if (cachedArtistNames) {
+    names = cachedArtistNames?.names;
+    roles = cachedArtistNames?.roles;
+  } else {
+    let namesAndRoles = await getBandNamesAndRolesFromWikipedia(artistName);
     await redis.set(
       artistName,
-      JSON.stringify({ names: names, roles: roles }),
+      JSON.stringify({
+        names: namesAndRoles.names,
+        roles: namesAndRoles.roles,
+      }),
       {}
     );
   }
 
-  let urls: any = [];
-  names.forEach(async (name: any) => {
-    urls.push(
-      axios.get(`https://api.spotify.com/v1/search?type=episode&q=${name}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-    );
-  });
-  let proms: any = [];
-  try {
-    proms = await Promise.allSettled(urls);
-  } catch (error) {
-    console.log(error);
-  }
-
-  let completedReqs = proms
-    .filter((x: any) => x.status === "fulfilled")
-    .map((x: any) => x.value);
-  let eps: any = [];
-
-  completedReqs.forEach((prom: any, index: number) => {
-    prom.data.episodes.items.forEach((ep: any) => {
-      eps.push({ ...ep, artist: names[index], role: roles[index] || "" });
-    });
-  });
+  let episodes = await getPodcastEpisodesFromBandNames(
+    names,
+    roles,
+    accessToken || ""
+  );
 
   res.status(200).json({
     artistName,
-    eps: eps
+    eps: episodes
       .sort((a: any, b: any) => b.release_date.localeCompare(a.release_date))
       .filter(
         (value: any, index: number, self: any) =>
