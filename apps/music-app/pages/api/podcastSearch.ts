@@ -10,15 +10,6 @@ import {
 } from "../../utils/helpers/spotifyHelpers";
 import { getBandNamesAndRolesFromWikipedia } from "../../utils/helpers/wikipediaHelper";
 
-const axios = require("axios");
-
-//   console.log(postTitles);
-//   console.log(fullTitle);
-// console.log(testjson.artist.bio.summary.replaceAll("\n", ""));
-//   console.log(fullTitle.replaceAll("\n", "").match(/(\w+\s\w+)(?=\s?\(.*?)/gm));
-//   console.log(postTitles);
-//   console.log(fullTitle.replaceAll("\n", "").match(/\((.*?)\)/gm));
-//   console.log(searchData.data.artists.items[0].name);
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -64,6 +55,10 @@ export default async function handler(
         (value: any, index: number, self: any) =>
           index === self.findIndex((t: any) => t.uri === value.uri)
       )
-      .filter((ep: any) => ep.description.includes(ep.artist || artistName)),
+      .filter((ep: any) =>
+        ep.description
+          .toLowerCase()
+          .includes(ep.artist.toLowerCase() || artistName.toLowerCase())
+      ),
   });
 }

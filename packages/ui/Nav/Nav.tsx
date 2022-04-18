@@ -91,7 +91,6 @@ export const Nav = ({ options, loggedIn, loginUrl, showSearch }: NavProps) => {
                           placeholder="Search"
                           type="search"
                           onKeyPress={(ev) => {
-                            console.log(`Pressed keyCode ${ev.key}`);
                             if (ev.key === "Enter") {
                               // Do code here
                               ev.preventDefault();

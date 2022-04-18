@@ -1,5 +1,4 @@
 export const formatArtist = (artist: string) => {
-  console.log(artist);
   return artist
     .toLowerCase()
     .replace(/\./g, "_")

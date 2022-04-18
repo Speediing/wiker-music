@@ -44,7 +44,6 @@ export const getBandNamesAndRolesFromWikipedia = async (artistName: string) => {
     $(el)
       .children()
       .each((_idx: any, el: any) => {
-        console.log($(el).text());
         if (!found && $(el).text() === "Members") {
           found = true;
         }
