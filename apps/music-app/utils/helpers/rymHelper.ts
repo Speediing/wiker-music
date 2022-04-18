@@ -2,9 +2,9 @@ export const formatArtist = (artist: string) => {
   console.log(artist);
   return artist
     .toLowerCase()
-    .replaceAll(".", "_")
-    .replaceAll(",", "")
-    .replaceAll("&", "and")
+    .replace(/\./g, "_")
+    .replace(/\,/g, "")
+    .replace(/\&/g, "and")
     .split(" ")
     .join("-");
 };
