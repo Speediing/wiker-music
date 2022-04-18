@@ -37,6 +37,7 @@ export default async function handler(
     `https://api.spotify.com/v1/search?type=artist&q=${req.query.search}`,
     { headers: { Authorization: `Bearer ${token}` } }
   );
+  console.log(searchData.data);
   console.log(
     `https://rateyourmusic.com/artist/${formatArtist(
       searchData.data.artists.items[0].name
