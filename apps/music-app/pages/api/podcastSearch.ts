@@ -57,6 +57,7 @@ export default async function handler(
     `https://en.wikipedia.org/wiki/Tyler,_the_Creator`
   );
   console.log("please", data);
+  throw Error(`error, ${JSON.stringify(data)}`);
   if (!cachedArtist) {
     const { data } = await axios.get(
       `https://rateyourmusic.com/artist/${formatArtist(
