@@ -28,7 +28,7 @@ export async function getServerSideProps(context: any) {
     };
   }
   let test = await fetch(
-    `http://localhost:3000/api/podcastSearch?search=${context.query.search}`
+    `${process.env.NEXT_PUBLIC_HOSTNAME}/api/podcastSearch?search=${context.query.search}`
   );
   let data = await test.json();
   return { props: { data } };

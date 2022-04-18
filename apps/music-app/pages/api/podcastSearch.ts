@@ -17,7 +17,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  console.log(process.env);
   const redis = new Redis({
     url: "https://usw2-awake-anemone-30070.upstash.io",
     token: process.env.UPSTASH_SECRET || "",
