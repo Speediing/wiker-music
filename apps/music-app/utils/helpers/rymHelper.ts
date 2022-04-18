@@ -1,4 +1,5 @@
 export const formatArtist = (artist: string) => {
+  console.log(artist);
   return artist
     .toLowerCase()
     .replaceAll(".", "_")
