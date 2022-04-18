@@ -47,6 +47,7 @@ function History() {
   return (
     <div className="bg-black min-h-screen h-full">
       <Nav
+        onSearch={(search) => router.push(`/podcast?search=${search}`)}
         options={options}
         loggedIn={isLoggedIn()}
         loginUrl={loginUrl}

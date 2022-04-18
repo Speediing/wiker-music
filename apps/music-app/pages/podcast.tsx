@@ -49,6 +49,7 @@ export default function Podcast({ data }: any) {
   return (
     <div className="bg-black h-screen">
       <Nav
+        onSearch={(search) => router.push(`/podcast?search=${search}`)}
         options={options}
         loggedIn={isLoggedIn()}
         loginUrl={loginUrl}
@@ -68,6 +69,12 @@ export default function Podcast({ data }: any) {
                 className="shadow-sm focus:ring-rose-500 bg-black text-white focus:border-rose-500 block w-full sm:text-sm border-gray-300 rounded-md"
                 placeholder="Radiohead, The Strokes, ..."
                 onChange={(e) => setSearch(e.target.value)}
+                onKeyPress={(ev) => {
+                  if (ev.key === "Enter") {
+                    ev.preventDefault();
+                    router.push(`/podcast?search=${search}`);
+                  }
+                }}
               />
             </div>
           </div>

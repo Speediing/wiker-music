@@ -16,8 +16,15 @@ export interface NavProps {
   loggedIn: boolean;
   loginUrl: string;
   showSearch: boolean;
+  onSearch: (search: string) => void;
 }
-export const Nav = ({ options, loggedIn, loginUrl, showSearch }: NavProps) => {
+export const Nav = ({
+  options,
+  loggedIn,
+  loginUrl,
+  showSearch,
+  onSearch,
+}: NavProps) => {
   const [search, setSearch] = useState("");
   return (
     <Disclosure as="nav" className="bg-grey-900">
@@ -92,9 +99,8 @@ export const Nav = ({ options, loggedIn, loginUrl, showSearch }: NavProps) => {
                           type="search"
                           onKeyPress={(ev) => {
                             if (ev.key === "Enter") {
-                              // Do code here
                               ev.preventDefault();
-                              window?.location.href = `/podcast?search=${search}`;
+                              onSearch(search);
                             }
                           }}
                           onChange={(e: any) => {
