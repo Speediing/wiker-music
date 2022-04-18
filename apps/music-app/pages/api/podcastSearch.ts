@@ -53,6 +53,10 @@ export default async function handler(
     names = cachedArtist?.names;
     roles = cachedArtist?.roles;
   }
+  const { data } = await axios.get(
+    `https://en.wikipedia.org/wiki/Tyler,_the_Creator`
+  );
+  console.log("please", data);
   if (!cachedArtist) {
     const { data } = await axios.get(
       `https://rateyourmusic.com/artist/${formatArtist(
