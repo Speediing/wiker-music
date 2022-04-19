@@ -78,14 +78,6 @@ export const Nav = ({
                     })}
                   </div>
                 </div>
-                {!loggedIn && (
-                  <a
-                    href={loginUrl}
-                    className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
-                  >
-                    Log In
-                  </a>
-                )}
                 {showSearch && (
                   <div className="flex-1 flex justify-center px-2 lg:ml-6 lg:justify-end">
                     <div className="max-w-lg w-full lg:max-w-xs">
@@ -98,6 +90,14 @@ export const Nav = ({
                       />
                     </div>
                   </div>
+                )}
+                {!loggedIn && (
+                  <a
+                    href={loginUrl}
+                    className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
+                  >
+                    Log In
+                  </a>
                 )}
               </>
               {loggedIn && (

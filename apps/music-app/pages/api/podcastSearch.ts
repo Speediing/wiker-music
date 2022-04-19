@@ -43,12 +43,13 @@ export default async function handler(
         {}
       );
     } catch (error) {
+      names = [artistName];
       console.log(error);
     }
   }
 
   let episodes = await getPodcastEpisodesFromBandNames(
-    names,
+    names.map((x) => x.replace(/\s+/g, " ")),
     roles,
     accessToken || ""
   );
