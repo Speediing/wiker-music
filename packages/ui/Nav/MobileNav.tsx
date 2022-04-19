@@ -6,6 +6,7 @@ import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
 import { classNames } from "../utils/classNames";
 import Link from "next/link";
 import { NavOption } from ".";
+import Image from "next/image";
 export interface MobileNavProps {
   options: NavOption[];
   loggedIn: boolean;
@@ -43,17 +44,24 @@ function MobileNav({ options, loggedIn, profileUrl }: MobileNavProps) {
       {loggedIn && (
         <div className="pt-4 pb-3 border-t border-gray-700">
           <div className="flex items-center px-5">
-            <div className="flex-shrink-0">
-              <img className="h-10 w-10 rounded-full" src={profileUrl} alt="" />
+            <div className="h-10 w-10 flex-shrink-0">
+              <Image
+                height={40}
+                width={40}
+                className="rounded-full"
+                src={profileUrl}
+                alt=""
+              />
             </div>
             <div className="ml-3">
-              <a
-                href="/podcast"
-                onClick={() => localStorage?.clear()}
-                className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
-              >
-                Sign out
-              </a>
+              <Link href={"/podcast"}>
+                <a
+                  onClick={() => localStorage?.clear()}
+                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
+                >
+                  Sign out
+                </a>
+              </Link>
             </div>
           </div>
         </div>
