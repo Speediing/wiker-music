@@ -170,30 +170,30 @@ export default function Podcast({ data }: any) {
                                 </p>
                               </div>
                             </div>
-                            <div className="md:hidden xs:block">
-                              <div className="mt-2  flex flex-row justify-between">
-                                <p className="flex items-center text-sm text-gray-400">
-                                  <MusicNoteIcon
-                                    className="flex-shrink-0 mr-1.5 h-5 w-5 text-rose-400"
-                                    aria-hidden="true"
-                                  />
-                                  {`${podcast.artist} ${podcast.role}`}
-                                </p>
-                                <p className="text-sm text-gray-200">
-                                  Released:{" "}
-                                  <time dateTime={podcast.release_date}>
-                                    {podcast.release_date}
-                                  </time>
-                                </p>
-                              </div>
-                            </div>
                           </div>
                         </div>
                         <div>
                           <ChevronRightIcon
-                            className="h-5 w-5 text-gray-400"
+                            className="h-5 w-5 mt-7 sm:mt-0 text-gray-400"
                             aria-hidden="true"
                           />
+                        </div>
+                      </div>
+                      <div className="md:hidden xs:block  px-4 pb-4 sm:px-6">
+                        <div className="mt-2  flex flex-row justify-between">
+                          <p className="flex items-center text-sm text-gray-400">
+                            <MusicNoteIcon
+                              className="flex-shrink-0 mr-1.5 h-5 w-5 text-rose-400"
+                              aria-hidden="true"
+                            />
+                            {`${podcast.artist} ${podcast.role}`}
+                          </p>
+                          <p className="text-sm text-gray-200 ">
+                            Released:{" "}
+                            <time dateTime={podcast.release_date}>
+                              {podcast.release_date}
+                            </time>
+                          </p>
                         </div>
                       </div>
                     </a>
