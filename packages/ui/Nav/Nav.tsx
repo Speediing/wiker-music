@@ -30,7 +30,6 @@ export const Nav = ({
   profileUrl,
   onSearch,
 }: NavProps) => {
-  console.log(profileUrl);
   const [search, setSearch] = useState("");
   return (
     <Disclosure as="nav" className="bg-grey-900">
