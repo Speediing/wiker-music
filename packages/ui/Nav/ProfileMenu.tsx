@@ -3,6 +3,7 @@ import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { classNames } from "../utils/classNames";
 import Link from "next/link";
+import Image from "next/image";
 export interface ProfileMenuProps {
   profileUrl: string;
 }
@@ -13,9 +14,16 @@ export const ProfileMenu = ({ profileUrl }: ProfileMenuProps) => {
         {/* Profile dropdown */}
         <Menu as="div" className="ml-4 relative flex-shrink-0">
           <div>
-            <Menu.Button className="bg-gray-800 rounded-full flex text-sm text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+            <Menu.Button className="bg-gray-800 rounded-full flex text-sm text-white focus:outline-none border border-white focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-rose-500">
               <span className="sr-only">Open user menu</span>
-              <img className="h-8 w-8 rounded-full" src={profileUrl} alt="" />
+              <Image
+                className="h-8 w-8 rounded-full"
+                src={profileUrl}
+                width={32}
+                height={32}
+                alt=""
+                placeholder="empty"
+              />
             </Menu.Button>
           </div>
           <Transition

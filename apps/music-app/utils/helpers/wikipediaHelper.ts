@@ -10,6 +10,7 @@ export const formatWikipediaName = (artist: string) => {
   return words.join("_");
 };
 
+//TODO: split this into a pageobject and get roles from page
 export const getBandNamesAndRolesFromWikipedia = async (artistName: string) => {
   let names: string[] = [];
   let roles: string[] = [];
