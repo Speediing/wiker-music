@@ -29,7 +29,7 @@ export const HistoryCard = ({ track, index }: HistoryCardProps) => {
           <dt className="sr-only">Role</dt>
           <dd className="mt-3">
             <Link href={`podcast?search=${track.artists[0].name}`}>
-              <a className="px-2 py-1 text-rose-800 text-xs font-medium bg-rose-100 rounded-full">
+              <a className="px-2 py-1 text-rose-900 text-xs font-medium bg-rose-100 rounded-full hover:bg-rose-300">
                 Podcasts
               </a>
             </Link>
@@ -45,7 +45,7 @@ export const HistoryCard = ({ track, index }: HistoryCardProps) => {
                 .join("+")}+${track.name.split(" ").join("+")}`}
               passHref={true}
             >
-              <a className="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-zinc-300 font-medium border border-transparent rounded-bl-lg hover:text-zinc-100">
+              <a className="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-zinc-300 font-medium border border-transparent rounded-bl-lg hover:bg-zinc-800">
                 <MusicNoteIcon
                   className="w-5 h-5 text-gray-200"
                   aria-hidden="true"
@@ -61,7 +61,7 @@ export const HistoryCard = ({ track, index }: HistoryCardProps) => {
               )}/${formatAlbum(track.album.name)}/`}
               passHref={true}
             >
-              <a className="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-zinc-300 font-medium border border-transparent rounded-br-lg hover:text-zinc-100">
+              <a className="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-zinc-300 font-medium border border-transparent rounded-br-lg hover:bg-zinc-800">
                 <StarIcon
                   className="w-5 h-5 text-gray-200"
                   aria-hidden="true"
