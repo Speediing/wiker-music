@@ -1,6 +1,10 @@
 import { ChevronRightIcon, StarIcon } from "@heroicons/react/solid";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { Button } from "ui";
+import history from "../resources/history.png";
+import podcast from "../resources/podcasts.png";
+import logo from "../resources/logo.jpeg";
 
 const stats = [
   { label: "Founded", value: "2021" },
@@ -116,80 +120,36 @@ export default function Index() {
     router.push("/podcast");
   };
   return (
-    <div className="bg-white">
+    <div className="bg-black">
       <main>
         {/* Hero section */}
         <div className="pt-8 overflow-hidden sm:pt-12 lg:relative lg:py-48">
           <div className="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl lg:grid lg:grid-cols-2 lg:gap-24">
             <div>
               <div>
-                <img
+                <Image
                   className="h-11 w-auto"
-                  src="https://tailwindui.com/img/logos/workflow-mark.svg?color=rose&shade=500"
+                  src={logo}
                   alt="Workflow"
+                  width={150}
+                  height={150}
                 />
               </div>
-              <div className="mt-20">
-                <div>
-                  <a href="#" className="inline-flex space-x-4">
-                    <span className="rounded bg-rose-50 px-2.5 py-1 text-xs font-semibold text-rose-500 tracking-wide uppercase">
-                      What&apos;s new
-                    </span>
-                    <span className="inline-flex items-center text-sm font-medium text-rose-500 space-x-1">
-                      <span>Just shipped version 0.1.0</span>
-                      <ChevronRightIcon
-                        className="h-5 w-5"
-                        aria-hidden="true"
-                      />
-                    </span>
-                  </a>
-                </div>
+              <div className="mt-16">
                 <div className="mt-6 sm:max-w-xl">
-                  <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl">
-                    Welcome to Wiker Music
+                  <h1 className="text-4xl font-extrabold text-white tracking-tight sm:text-5xl">
+                    Welcome to
+                    <span className="text-4xl font-extrabold text-rose-500 tracking-tight sm:text-5xl">
+                      {"   "}Wiker {"   "}
+                    </span>
+                    Music
                   </h1>
                   <p className="mt-6 text-xl text-gray-500">
-                    Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure
-                    qui lorem cupidatat commodo.
+                    Augmenting your music experience.
                   </p>
                 </div>
                 <div className="mt-12 sm:max-w-lg sm:w-full sm:flex">
                   <Button onClick={handleClick} text="Start Now" />
-                </div>
-                <div className="mt-6">
-                  <div className="inline-flex items-center divide-x divide-gray-300">
-                    <div className="flex-shrink-0 flex pr-5">
-                      <StarIcon
-                        className="h-5 w-5 text-yellow-400"
-                        aria-hidden="true"
-                      />
-                      <StarIcon
-                        className="h-5 w-5 text-yellow-400"
-                        aria-hidden="true"
-                      />
-                      <StarIcon
-                        className="h-5 w-5 text-yellow-400"
-                        aria-hidden="true"
-                      />
-                      <StarIcon
-                        className="h-5 w-5 text-yellow-400"
-                        aria-hidden="true"
-                      />
-                      <StarIcon
-                        className="h-5 w-5 text-yellow-400"
-                        aria-hidden="true"
-                      />
-                    </div>
-                    <div className="min-w-0 flex-1 pl-5 py-1 text-sm text-gray-500 sm:py-3">
-                      <span className="font-medium text-gray-900">
-                        Rated 5 stars
-                      </span>{" "}
-                      by over{" "}
-                      <span className="font-medium text-rose-500">
-                        500 beta users
-                      </span>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -198,7 +158,7 @@ export default function Index() {
           <div className="sm:mx-auto sm:max-w-3xl sm:px-6">
             <div className="py-12 sm:relative sm:mt-12 sm:py-16 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
               <div className="hidden sm:block">
-                <div className="absolute inset-y-0 left-1/2 w-screen bg-gray-50 rounded-l-3xl lg:left-80 lg:right-0 lg:w-full" />
+                <div className="absolute inset-y-0 left-1/2 w-screen bg-zinc-900 rounded-l-3xl lg:left-80 lg:right-0 lg:w-full" />
                 <svg
                   className="absolute top-8 right-1/2 -mr-3 lg:m-0 lg:left-0"
                   width={404}
@@ -232,12 +192,10 @@ export default function Index() {
                   />
                 </svg>
               </div>
-              <div className="relative pl-4 -mr-40 sm:mx-auto sm:max-w-3xl sm:px-0 lg:max-w-none lg:h-full lg:pl-12">
-                <img
-                  className="w-full rounded-md shadow-xl ring-1 ring-black ring-opacity-5 lg:h-full lg:w-auto lg:max-w-none"
-                  src="https://tailwindui.com/img/component-images/task-app-rose.jpg"
-                  alt=""
-                />
+              <div className="relative pl-4  -mr-40 sm:mx-auto sm:max-w-3xl sm:px-0 lg:max-w-none lg:h-full lg:pl-12 ">
+                <div className="w-full drop-shadow-2xl shadow-zinc-800 shadow-xl ring-1 ring-black ring-opacity-5  lg:w-auto lg:max-w-none ">
+                  <Image className="rounded-md" src={history} alt="Workflow" />
+                </div>
               </div>
             </div>
           </div>
@@ -251,7 +209,7 @@ export default function Index() {
                 aria-hidden="true"
                 className="hidden sm:block lg:absolute lg:inset-y-0 lg:right-0 lg:w-screen"
               >
-                <div className="absolute inset-y-0 right-1/2 w-full bg-gray-50 rounded-r-3xl lg:right-72" />
+                <div className="absolute inset-y-0 right-1/2 w-full bg-zinc-900 rounded-r-3xl lg:right-72" />
                 <svg
                   className="absolute top-8 left-1/2 -ml-3 lg:-right-8 lg:left-auto lg:top-12"
                   width={404}
@@ -287,14 +245,14 @@ export default function Index() {
               </div>
               <div className="relative mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-0 lg:max-w-none lg:py-20">
                 {/* Testimonial card*/}
-                <div className="relative pt-64 pb-10 rounded-2xl shadow-xl overflow-hidden">
-                  <img
+                <div className="relative pb-10 rounded-2xl shadow-xl overflow-hidden">
+                  <Image
                     className="absolute inset-0 h-full w-full object-cover"
-                    src="https://images.unsplash.com/photo-1521510895919-46920266ddb3?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&fp-x=0.5&fp-y=0.6&fp-z=3&width=1440&height=1440&sat=-100"
+                    src={podcast}
                     alt=""
                   />
                   <div className="absolute inset-0 bg-rose-500 mix-blend-multiply" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-rose-600 via-rose-600 opacity-90" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-rose-600 via-rose-600 opacity-70" />
                   <div className="relative px-8">
                     <div>
                       <img
@@ -390,7 +348,7 @@ export default function Index() {
           </div>
         </div>
 
-        {/* Logo cloud section */}
+        {/* Logo cloud section
         <div className="mt-32">
           <div className="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl">
             <div className="lg:grid lg:grid-cols-2 lg:gap-24 lg:items-center">
@@ -415,7 +373,7 @@ export default function Index() {
                 {logos.map((logo) => (
                   <div
                     key={logo.name}
-                    className="col-span-1 flex justify-center py-8 px-8 bg-gray-50"
+                    className="col-span-1 flex justify-center py-8 px-8 bg-zinc-900"
                   >
                     <img className="max-h-12" src={logo.url} alt={logo.name} />
                   </div>
@@ -423,12 +381,12 @@ export default function Index() {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* CTA section */}
-        <div className="relative mt-24 sm:mt-32 sm:py-16">
+        <div className="relative mt-24 sm:mt-32 sm:py-16 mb-12">
           <div aria-hidden="true" className="hidden sm:block">
-            <div className="absolute inset-y-0 left-0 w-1/2 bg-gray-50 rounded-r-3xl" />
+            <div className="absolute inset-y-0 left-0 w-1/2 bg-zinc-900 rounded-r-3xl" />
             <svg
               className="absolute top-8 left-1/2 -ml-3"
               width={404}
@@ -499,9 +457,9 @@ export default function Index() {
                 </div>
                 <form
                   action="#"
-                  className="mt-12 sm:mx-auto sm:max-w-lg sm:flex"
+                  className="mt-12 sm:mx-auto sm:max-w-lg sm:flex justify-center"
                 >
-                  <div className="min-w-0 flex-1">
+                  {/* <div className="min-w-0 flex-1">
                     <label htmlFor="cta-email" className="sr-only">
                       Email address
                     </label>
@@ -511,7 +469,7 @@ export default function Index() {
                       className="block w-full border border-transparent rounded-md px-5 py-3 text-base text-gray-900 placeholder-gray-500 shadow-sm focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-rose-500"
                       placeholder="Enter your email"
                     />
-                  </div>
+                  </div> */}
                   <div className="mt-4 sm:mt-0 sm:ml-3">
                     <button
                       type="submit"
@@ -527,7 +485,7 @@ export default function Index() {
         </div>
       </main>
 
-      {/* Footer section */}
+      {/* Footer section
       <footer className="mt-24 bg-gray-900 sm:mt-12">
         <div className="mx-auto max-w-md py-12 px-4 overflow-hidden sm:max-w-3xl sm:px-6 lg:max-w-7xl lg:px-8">
           <nav
@@ -561,7 +519,7 @@ export default function Index() {
             &copy; 2020 Workflow, Inc. All rights reserved.
           </p>
         </div>
-      </footer>
+      </footer> */}
     </div>
   );
 }

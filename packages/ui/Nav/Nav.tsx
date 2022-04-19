@@ -39,27 +39,35 @@ export const Nav = ({
             <div className="relative flex items-center justify-between h-16">
               <>
                 <div className="flex items-center px-2 lg:px-0">
-                  <div className="flex-shrink-0">
-                    <div className="block lg:hidden mb-2 h-8 w-auto">
-                      <Image src={logo} width={40} height={40} alt="Workflow" />
-                    </div>
-                    <div className="hidden lg:block w-auto flex-row ">
-                      <div className="flex flex-row">
+                  <Link href="/">
+                    <a href="/" className="flex-shrink-0">
+                      <div className="block lg:hidden mb-2 h-8 w-auto">
                         <Image
                           src={logo}
                           width={40}
                           height={40}
                           alt="Workflow"
-                        />{" "}
-                        <h2 className="text-rose-400 font-bold text-2xl ml-4 mt-1  inline-block text-center align-middle">
-                          Wiker
-                        </h2>
-                        <h2 className="text-white font-bold text-2xl mt-1  inline-block text-center align-middle">
-                          Music
-                        </h2>
+                        />
                       </div>
-                    </div>
-                  </div>
+
+                      <div className="hidden lg:block w-auto flex-row ">
+                        <div className="flex flex-row">
+                          <Image
+                            src={logo}
+                            width={40}
+                            height={40}
+                            alt="Workflow"
+                          />{" "}
+                          <h2 className="text-rose-400 font-bold text-2xl ml-4 mt-1  inline-block text-center align-middle">
+                            Wiker
+                          </h2>
+                          <h2 className="text-white font-bold text-2xl mt-1  inline-block text-center align-middle">
+                            Music
+                          </h2>
+                        </div>
+                      </div>
+                    </a>
+                  </Link>
                   <div className="hidden lg:block lg:ml-6">
                     {options.map((option) => {
                       return option.current ? (

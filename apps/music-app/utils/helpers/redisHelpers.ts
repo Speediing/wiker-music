@@ -22,3 +22,8 @@ export const createRedisClient = (): Redis => {
   });
   return redis;
 };
+
+export const incrementSearchCount = async (redis: Redis) => {
+  let searchCount = await redis.get("searchCount");
+  await redis.set("searchCount", Number(searchCount) + 1, {});
+};

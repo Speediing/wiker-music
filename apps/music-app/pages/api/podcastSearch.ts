@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import {
   createRedisClient,
   getAccessTokenInRedis,
+  incrementSearchCount,
 } from "../../utils/helpers/redisHelpers";
 import {
   getArtistNameFromSearch,
@@ -23,7 +24,6 @@ export default async function handler(
   );
 
   let cachedArtistNames: any = await redis.get(artistName);
-
   let names: string[] = [];
   let roles: string[] = [];
   if (cachedArtistNames) {
@@ -53,6 +53,8 @@ export default async function handler(
     roles,
     accessToken || ""
   );
+
+  await incrementSearchCount(redis);
 
   res.status(200).json({
     artistName,
