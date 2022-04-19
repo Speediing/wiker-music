@@ -1,15 +1,10 @@
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import { Button } from "ui";
 
 function Hero() {
-  const router = useRouter();
-
-  const handleClick = (e: any) => {
-    e.preventDefault();
-    router.push("/podcast");
-  };
   return (
     <div className="pt-8 overflow-hidden sm:pt-12 lg:relative lg:py-48">
       <div className="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl lg:grid lg:grid-cols-2 lg:gap-24">
@@ -37,7 +32,9 @@ function Hero() {
               </p>
             </div>
             <div className="mt-12 sm:max-w-lg sm:w-full sm:flex">
-              <Button onClick={handleClick} text="Start Now" />
+              <Link href={"/podcast"} passHref={true}>
+                <Button onClick={() => {}} text="Start Now" />
+              </Link>
             </div>
           </div>
         </div>

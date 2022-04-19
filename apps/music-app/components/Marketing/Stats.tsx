@@ -1,13 +1,15 @@
 import Image from "next/image";
 import React from "react";
 
-const stats = [
-  { label: "Founded", value: "2021" },
-  { label: "Employees", value: "5" },
-  { label: "Beta Users", value: "521" },
-  { label: "Raised", value: "$25M" },
-];
-function Stats() {
+export type StatOption = {
+  label: string;
+  value: string;
+};
+export interface StatProps {
+  stats: StatOption[];
+}
+
+function Stats({ stats }: StatProps) {
   return (
     <div className="relative mt-20">
       <div className="lg:mx-auto lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-2 lg:gap-24 lg:items-start">
@@ -94,30 +96,24 @@ function Stats() {
           {/* Content area */}
           <div className="pt-12 sm:pt-16 lg:pt-20">
             <h2 className="text-3xl text-white font-extrabold tracking-tight sm:text-4xl">
-              On a mission to empower teams
+              Music is a <span className="text-rose-500">living</span> thing.
             </h2>
             <div className="mt-6 text-gray-500 space-y-6">
               <p className="text-lg">
-                Sagittis scelerisque nulla cursus in enim consectetur quam.
-                Dictum urna sed consectetur neque tristique pellentesque.
-                Blandit amet, sed aenean erat arcu morbi. Cursus faucibus nunc
-                nisl netus morbi vel porttitor vitae ut. Amet vitae fames
-                senectus vitae.
+                Wiker Music takes your Spotify listening history and augements
+                it with direct links both to Guitar Chords and Tabs and other
+                reviews of the music. No more tracking down artist names and
+                manually searching!
               </p>
               <p className="text-base leading-7">
-                Sollicitudin tristique eros erat odio sed vitae, consequat
-                turpis elementum. Lorem nibh vel, eget pretium arcu vitae. Eros
-                eu viverra donec ut volutpat donec laoreet quam urna.
-                Sollicitudin tristique eros erat odio sed vitae, consequat
-                turpis elementum. Lorem nibh vel, eget pretium arcu vitae. Eros
-                eu viverra donec ut volutpat donec laoreet quam urna.
+                Not only that, but it also breaks down each of the members of
+                the group and looks up podcasts and interviews that they have
+                done. The results then link right back to spotify so you can
+                immediately listen in-app.
               </p>
               <p className="text-base leading-7">
-                Rhoncus nisl, libero egestas diam fermentum dui. At quis
-                tincidunt vel ultricies. Vulputate aliquet velit faucibus
-                semper. Pellentesque in venenatis vestibulum consectetur nibh
-                id. In id ut tempus egestas. Enim sit aliquam nec, a. Morbi enim
-                fermentum lacus in. Viverra.
+                All this helps you discover new things about your music and
+                enhance your listening experience.
               </p>
             </div>
           </div>
@@ -139,11 +135,6 @@ function Stats() {
                 </div>
               ))}
             </dl>
-            <div className="mt-10">
-              <a href="#" className="text-base font-medium text-rose-500">
-                Learn more about how we&apos;re changing the world&rarr;
-              </a>
-            </div>
           </div>
         </div>
       </div>

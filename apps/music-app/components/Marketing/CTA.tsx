@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 function CTA() {
@@ -66,11 +67,10 @@ function CTA() {
           <div className="relative">
             <div className="sm:text-center">
               <h2 className="text-3xl font-extrabold text-white tracking-tight sm:text-4xl">
-                Get notified when we&rsquo;re launching.
+                Try it out now!
               </h2>
               <p className="mt-6 mx-auto max-w-2xl text-lg text-rose-100">
-                Sagittis scelerisque nulla cursus in enim consectetur quam.
-                Dictum urna sed consectetur neque tristique pellentesque.
+                See what you can do with the Wiker Music App.
               </p>
             </div>
             <form
@@ -78,12 +78,14 @@ function CTA() {
               className="mt-12 sm:mx-auto sm:max-w-lg sm:flex justify-center"
             >
               <div className="mt-4 sm:mt-0 sm:ml-3">
-                <button
-                  type="submit"
-                  className="block w-full rounded-md border border-transparent px-5 py-3 bg-gray-900 text-base font-medium text-white shadow hover:bg-black focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-rose-500 sm:px-10"
-                >
-                  Notify me
-                </button>
+                <Link href={"/podcast"} passHref={true}>
+                  <button
+                    type="submit"
+                    className="block w-full rounded-md border border-transparent px-5 py-3 bg-gray-900 text-base font-medium text-white shadow hover:bg-black focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-rose-500 sm:px-10"
+                  >
+                    Start
+                  </button>
+                </Link>
               </div>
             </form>
           </div>
