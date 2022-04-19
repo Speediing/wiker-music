@@ -7,6 +7,8 @@ import { ProfileMenu } from "./ProfileMenu";
 import MobileNav from "./MobileNav";
 import Image from "next/image";
 import logo from "./Logo.jpeg";
+import { SearchInput } from "../SearchInput";
+
 export type NavOption = {
   name: string;
   href: string;
@@ -50,10 +52,9 @@ export const Nav = ({
                           alt="Workflow"
                         />{" "}
                         <h2 className="text-rose-400 font-bold text-2xl ml-4 mt-1  inline-block text-center align-middle">
-                          Wiker{"   "}
+                          Wiker
                         </h2>
                         <h2 className="text-white font-bold text-2xl mt-1  inline-block text-center align-middle">
-                          {" "}
                           Music
                         </h2>
                       </div>
@@ -63,13 +64,13 @@ export const Nav = ({
                     {options.map((option) => {
                       return option.current ? (
                         <Link href={option.href} key={option?.href}>
-                          <a className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">
+                          <a className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium mr-3">
                             {option.name}
                           </a>
                         </Link>
                       ) : (
                         <Link href={option.href} key={option?.href}>
-                          <a className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                          <a className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm mr-3 font-medium">
                             {option.name}
                           </a>
                         </Link>
@@ -91,31 +92,10 @@ export const Nav = ({
                       <label htmlFor="search" className="sr-only">
                         Search
                       </label>
-                      <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                          <SearchIcon
-                            className="h-5 w-5 text-gray-400"
-                            aria-hidden="true"
-                          />
-                        </div>
-                        <input
-                          id="search"
-                          name="search"
-                          className="block w-full pl-10 pr-3 py-2 border border-transparent rounded-md leading-5 bg-gray-700 text-gray-300 placeholder-gray-400 focus:outline-none focus:bg-white focus:border-white focus:ring-white focus:text-gray-900 sm:text-sm"
-                          placeholder="Search"
-                          type="search"
-                          onKeyPress={(ev) => {
-                            if (ev.key === "Enter") {
-                              ev.preventDefault();
-                              onSearch(search);
-                            }
-                          }}
-                          onChange={(e: any) => {
-                            e.preventDefault();
-                            setSearch(e.target.value);
-                          }}
-                        />
-                      </div>
+                      <SearchInput
+                        setSearch={(search) => setSearch(search)}
+                        onSearch={() => onSearch(search)}
+                      />
                     </div>
                   </div>
                 )}
@@ -143,7 +123,11 @@ export const Nav = ({
             </div>
           </div>
 
-          <MobileNav options={options} loggedIn={loggedIn} />
+          <MobileNav
+            profileUrl={profileUrl}
+            options={options}
+            loggedIn={loggedIn}
+          />
         </>
       )}
     </Disclosure>

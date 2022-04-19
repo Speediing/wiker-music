@@ -5,6 +5,7 @@ import {
   LocationMarkerIcon,
   MailIcon,
   MusicNoteIcon,
+  SearchIcon,
   UsersIcon,
 } from "@heroicons/react/solid";
 import { motion } from "framer-motion";
@@ -12,7 +13,7 @@ import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
-import { Button, Nav, NavOption } from "ui";
+import { Button, Nav, NavOption, SearchInput } from "ui";
 import { isLoggedIn } from "../utils/helpers/authHelpers";
 import { loginUrl } from "./history";
 
@@ -52,6 +53,7 @@ export default function Podcast({ data }: any) {
       ? me?.data?.images[0]?.url
       : "https://cdn-icons-png.flaticon.com/128/64/64572.png";
   };
+
   useEffect(() => {
     if (!isLoggedIn()) {
       setOptions([{ name: "Podcasts", href: "/podcast", current: true }]);
@@ -65,7 +67,7 @@ export default function Podcast({ data }: any) {
         options={options}
         loggedIn={isLoggedIn()}
         loginUrl={loginUrl}
-        showSearch={false}
+        showSearch={router.query.search !== undefined}
         profileUrl={getProfileUrl()}
       />
       {!data && (
@@ -83,19 +85,9 @@ export default function Podcast({ data }: any) {
               <label htmlFor="email" className="sr-only text-white">
                 Search Here
               </label>
-              <input
-                type="search"
-                name="email"
-                id="email"
-                className="shadow-sm focus:ring-rose-500 bg-black text-white focus:border-rose-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                placeholder="Radiohead, The Strokes, ..."
-                onChange={(e) => setSearch(e.target.value)}
-                onKeyPress={(ev) => {
-                  if (ev.key === "Enter") {
-                    ev.preventDefault();
-                    router.push(`/podcast?search=${search}`);
-                  }
-                }}
+              <SearchInput
+                setSearch={(search) => setSearch(search)}
+                onSearch={() => router.push(`/podcast?search=${search}`)}
               />
             </div>
           </div>
