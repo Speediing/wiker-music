@@ -16,7 +16,7 @@ export async function getStaticProps() {
     props: {
       stats,
     },
-    revalidate: 60 * 60, // In seconds
+    revalidate: 10, // In seconds
   };
 }
 export default function Index({ stats }: any) {
