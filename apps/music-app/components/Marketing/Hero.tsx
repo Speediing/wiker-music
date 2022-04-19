@@ -17,7 +17,7 @@ function Hero() {
           <div>
             <Image
               className="h-11 w-auto"
-              src={"/logo.jpeg"}
+              src={"/LogoW.jpeg"}
               alt="Workflow"
               width={150}
               height={150}
@@ -86,7 +86,7 @@ function Hero() {
                 className="rounded-md"
                 height={2391}
                 width={3321}
-                src={"/history.png"}
+                src={"/HistoryW.png"}
                 alt="Workflow"
               />
             </div>

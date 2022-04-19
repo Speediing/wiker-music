@@ -55,7 +55,7 @@ function Stats() {
             <div className="relative pb-10 rounded-2xl shadow-xl overflow-hidden">
               <Image
                 className="absolute inset-0 h-full w-full object-cover"
-                src={"/podcasts.png"}
+                src={"/PodcastsW.png"}
                 height={1400}
                 width={1894}
                 alt=""
