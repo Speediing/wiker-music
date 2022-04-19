@@ -2,8 +2,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
 import { Button } from "ui";
-import history from "../../public/history.png";
-import logo from "../../public/logo.jpeg";
+
 function Hero() {
   const router = useRouter();
 
@@ -18,7 +17,7 @@ function Hero() {
           <div>
             <Image
               className="h-11 w-auto"
-              src={logo}
+              src={"/logo.jpeg"}
               alt="Workflow"
               width={150}
               height={150}
@@ -83,7 +82,13 @@ function Hero() {
           </div>
           <div className="relative pl-4  -mr-40 sm:mx-auto sm:max-w-3xl sm:px-0 lg:max-w-none lg:h-full lg:pl-12 ">
             <div className="w-full drop-shadow-2xl shadow-zinc-800 shadow-xl ring-1 ring-black ring-opacity-5  lg:w-auto lg:max-w-none ">
-              <Image className="rounded-md" src={history} alt="Workflow" />
+              <Image
+                className="rounded-md"
+                height={2391}
+                width={3321}
+                src={"/history.png"}
+                alt="Workflow"
+              />
             </div>
           </div>
         </div>

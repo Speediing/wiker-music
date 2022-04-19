@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import podcast from "../../public/podcasts.png";
+
 const stats = [
   { label: "Founded", value: "2021" },
   { label: "Employees", value: "5" },
@@ -55,7 +55,9 @@ function Stats() {
             <div className="relative pb-10 rounded-2xl shadow-xl overflow-hidden">
               <Image
                 className="absolute inset-0 h-full w-full object-cover"
-                src={podcast}
+                src={"/podcasts.png"}
+                height={1400}
+                width={1894}
                 alt=""
               />
               <div className="absolute inset-0 bg-rose-500 mix-blend-multiply" />
