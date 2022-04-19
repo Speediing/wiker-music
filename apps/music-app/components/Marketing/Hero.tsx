@@ -2,8 +2,8 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
 import { Button } from "ui";
-import history from "../../resources/history.png";
-import logo from "../../resources/logo.jpeg";
+import history from "../../public/history.png";
+import logo from "../../public/logo.jpeg";
 function Hero() {
   const router = useRouter();
 

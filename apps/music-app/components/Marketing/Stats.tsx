@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import podcast from "../../resources/podcasts.png";
+import podcast from "../../public/podcasts.png";
 const stats = [
   { label: "Founded", value: "2021" },
   { label: "Employees", value: "5" },
