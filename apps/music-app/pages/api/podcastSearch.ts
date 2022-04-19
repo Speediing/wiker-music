@@ -30,15 +30,21 @@ export default async function handler(
     names = cachedArtistNames?.names;
     roles = cachedArtistNames?.roles;
   } else {
-    let namesAndRoles = await getBandNamesAndRolesFromWikipedia(artistName);
-    await redis.set(
-      artistName,
-      JSON.stringify({
-        names: namesAndRoles.names,
-        roles: namesAndRoles.roles,
-      }),
-      {}
-    );
+    try {
+      let namesAndRoles = await getBandNamesAndRolesFromWikipedia(artistName);
+      names = namesAndRoles.names;
+      roles = namesAndRoles.roles;
+      await redis.set(
+        artistName,
+        JSON.stringify({
+          names: namesAndRoles.names,
+          roles: namesAndRoles.roles,
+        }),
+        {}
+      );
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   let episodes = await getPodcastEpisodesFromBandNames(

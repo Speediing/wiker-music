@@ -10,8 +10,9 @@ import { useRouter } from "next/router";
 import React from "react";
 import useSWR from "swr";
 import { Nav } from "ui";
+import { isLoggedIn } from "../../utils/helpers/authHelpers";
 import { formatAlbum, formatArtist } from "../../utils/helpers/rymHelper";
-import { isLoggedIn } from "../podcast";
+
 const queryString = require("query-string");
 export const loginUrl =
   "https://accounts.spotify.com/authorize?" +
@@ -24,11 +25,12 @@ export const loginUrl =
   });
 function History() {
   const router = useRouter();
-  const { data, error } = useSWR("me/player/recently-played?limit=50");
+  const { data } = useSWR("me/player/recently-played?limit=50");
+  const me = useSWR("me");
 
   const options = [
-    { name: "History", href: "history", current: true },
-    { name: "Podcasts", href: "podcast", current: false },
+    { name: "History", href: "/history", current: true },
+    { name: "Podcasts", href: "/podcast", current: false },
   ];
 
   React.useEffect(() => {
@@ -52,6 +54,7 @@ function History() {
         loggedIn={isLoggedIn()}
         loginUrl={loginUrl}
         showSearch={true}
+        profileUrl={me?.data?.images[0]?.url}
       />
       <header className="py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

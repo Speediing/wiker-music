@@ -11,15 +11,11 @@ import { motion } from "framer-motion";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import useSWR from "swr";
 import { Button, Nav, NavOption } from "ui";
+import { isLoggedIn } from "../utils/helpers/authHelpers";
 import { loginUrl } from "./history";
 
-export const isLoggedIn = () => {
-  if (typeof window !== "undefined") {
-    return localStorage?.getItem("refreshToken") !== null;
-  }
-  return false;
-};
 export async function getServerSideProps(context: any) {
   if (!context.query.search) {
     return {
@@ -29,23 +25,34 @@ export async function getServerSideProps(context: any) {
   let podcasts = await fetch(
     `${process.env.NEXT_PUBLIC_HOSTNAME}/api/podcastSearch?search=${context.query.search}`
   );
-  let data;
   try {
-    data = await podcasts.json();
+    let data = await podcasts.json();
     return { props: { data } };
   } catch (error) {
-    return { props: { data: [] } };
+    return { props: { data: {} } };
   }
 }
 
 export default function Podcast({ data }: any) {
-  const options: NavOption[] = [
-    { name: "History", href: "history", current: false },
-    { name: "Podcasts", href: "podcast", current: true },
-  ];
+  const options: NavOption[] = isLoggedIn()
+    ? [
+        { name: "History", href: "/history", current: false },
+        { name: "Podcasts", href: "/podcast", current: true },
+      ]
+    : [{ name: "Podcasts", href: "/podcast", current: true }];
+  const me = useSWR("me");
   const router = useRouter();
   const [search, setSearch] = useState("");
+  console.log(data);
 
+  const getProfileUrl = () => {
+    if (!me?.data?.images) {
+      return "";
+    }
+    return me?.data?.images[0]?.url
+      ? me?.data?.images[0]?.url
+      : "https://cdn-icons-png.flaticon.com/128/64/64572.png";
+  };
   return (
     <div className="bg-black h-screen">
       <Nav
@@ -54,16 +61,25 @@ export default function Podcast({ data }: any) {
         loggedIn={isLoggedIn()}
         loginUrl={loginUrl}
         showSearch={false}
+        profileUrl={getProfileUrl()}
       />
       {!data && (
         <>
+          <header className="py-10">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <h1 className="text-3xl font-bold text-white">
+                Search For Your Favourite Artist
+              </h1>
+            </div>
+          </header>
+
           <div className="mt-24 flex justify-center">
             <div className=" w-96 ">
               <label htmlFor="email" className="sr-only text-white">
                 Search Here
               </label>
               <input
-                type="email"
+                type="search"
                 name="email"
                 id="email"
                 className="shadow-sm focus:ring-rose-500 bg-black text-white focus:border-rose-500 block w-full sm:text-sm border-gray-300 rounded-md"
@@ -88,7 +104,17 @@ export default function Podcast({ data }: any) {
           </div>
         </>
       )}
-      {data && (
+      {!data?.eps ||
+        (data?.eps?.length === 0 && (
+          <header className="py-10">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <h1 className="text-3xl font-bold text-white">
+                No Podcast Results for {router.query.search}
+              </h1>
+            </div>
+          </header>
+        ))}
+      {data?.eps?.length > 0 && (
         <div>
           <header className="py-10">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -133,7 +159,7 @@ export default function Podcast({ data }: any) {
                             <div className="hidden md:block">
                               <div>
                                 <p className="text-sm text-gray-200">
-                                  Released:
+                                  Released:{" "}
                                   <time dateTime={podcast.release_date}>
                                     {podcast.release_date}
                                   </time>

@@ -1,12 +1,12 @@
 import React from "react";
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { SearchIcon } from "@heroicons/react/solid";
-import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
 import { classNames } from "../utils/classNames";
 import Link from "next/link";
-
-export const ProfileMenu = () => {
+export interface ProfileMenuProps {
+  profileUrl: string;
+}
+export const ProfileMenu = ({ profileUrl }: ProfileMenuProps) => {
   return (
     <div className="hidden lg:block lg:ml-4">
       <div className="flex items-center">
@@ -15,11 +15,7 @@ export const ProfileMenu = () => {
           <div>
             <Menu.Button className="bg-gray-800 rounded-full flex text-sm text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
               <span className="sr-only">Open user menu</span>
-              <img
-                className="h-8 w-8 rounded-full"
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                alt=""
-              />
+              <img className="h-8 w-8 rounded-full" src={profileUrl} alt="" />
             </Menu.Button>
           </div>
           <Transition

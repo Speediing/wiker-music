@@ -19,3 +19,10 @@ export const refreshTokenQuery = async (refreshToken: string) => {
   const tokenResponse = await tokenRequest.json();
   return tokenResponse;
 };
+
+export const isLoggedIn = () => {
+  if (typeof window !== "undefined") {
+    return localStorage?.getItem("refreshToken") !== null;
+  }
+  return false;
+};

@@ -39,8 +39,8 @@ export const getPodcastEpisodesFromBandNames = async (
   let eps: any = [];
 
   completedReqs.forEach((prom: any, index: number) => {
-    prom.data.episodes.items.forEach((ep: any) => {
-      eps.push({ ...ep, artist: names[index], role: roles[index] || "" });
+    prom?.data?.episodes?.items?.forEach((ep: any) => {
+      eps?.push({ ...ep, artist: names[index], role: roles[index] || "" });
     });
   });
   return eps;

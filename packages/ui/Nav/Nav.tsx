@@ -16,6 +16,7 @@ export interface NavProps {
   loggedIn: boolean;
   loginUrl: string;
   showSearch: boolean;
+  profileUrl: string;
   onSearch: (search: string) => void;
 }
 export const Nav = ({
@@ -23,6 +24,7 @@ export const Nav = ({
   loggedIn,
   loginUrl,
   showSearch,
+  profileUrl,
   onSearch,
 }: NavProps) => {
   const [search, setSearch] = useState("");
@@ -47,27 +49,21 @@ export const Nav = ({
                     />
                   </div>
                   <div className="hidden lg:block lg:ml-6">
-                    {options.map((option) =>
-                      option.current ? (
-                        <Link href={option.href} key={option?.name}>
-                          <a
-                            href={option.href}
-                            className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
-                          >
+                    {options.map((option) => {
+                      return option.current ? (
+                        <Link href={option.href} key={option?.href}>
+                          <a className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">
                             {option.name}
                           </a>
                         </Link>
                       ) : (
-                        <Link href={option.href} key={option?.name}>
-                          <a
-                            href={option.href}
-                            className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                          >
+                        <Link href={option.href} key={option?.href}>
+                          <a className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                             {option.name}
                           </a>
                         </Link>
-                      )
-                    )}
+                      );
+                    })}
                   </div>
                 </div>
                 {!loggedIn && (
@@ -130,7 +126,7 @@ export const Nav = ({
                     </Disclosure.Button>
                   </div>
 
-                  <ProfileMenu />
+                  <ProfileMenu profileUrl={profileUrl} />
                 </>
               )}
             </div>
