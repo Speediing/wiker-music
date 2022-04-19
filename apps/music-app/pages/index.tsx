@@ -9,7 +9,7 @@ export async function getStaticProps() {
   const stats = [
     { label: "Founded", value: "2022" },
     { label: "Employees", value: "1" },
-    { label: "Search Results", value: searchCount },
+    { label: "Podcast Search Results", value: searchCount },
     { label: "Value", value: "Infinite" },
   ];
   return {
