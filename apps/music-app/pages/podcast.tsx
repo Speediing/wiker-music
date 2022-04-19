@@ -10,7 +10,7 @@ import {
 import { motion } from "framer-motion";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useSWR from "swr";
 import { Button, Nav, NavOption } from "ui";
 import { isLoggedIn } from "../utils/helpers/authHelpers";
@@ -34,12 +34,11 @@ export async function getServerSideProps(context: any) {
 }
 
 export default function Podcast({ data }: any) {
-  const options: NavOption[] = isLoggedIn()
-    ? [
-        { name: "History", href: "/history", current: false },
-        { name: "Podcasts", href: "/podcast", current: true },
-      ]
-    : [{ name: "Podcasts", href: "/podcast", current: true }];
+  const [options, setOptions] = useState<NavOption[]>([
+    { name: "History", href: "/history", current: false },
+    { name: "Podcasts", href: "/podcast", current: true },
+  ]);
+
   const me = useSWR("me");
   const router = useRouter();
   const [search, setSearch] = useState("");
@@ -53,6 +52,12 @@ export default function Podcast({ data }: any) {
       ? me?.data?.images[0]?.url
       : "https://cdn-icons-png.flaticon.com/128/64/64572.png";
   };
+  useEffect(() => {
+    if (!isLoggedIn()) {
+      setOptions([{ name: "Podcasts", href: "/podcast", current: true }]);
+    }
+  }, []);
+
   return (
     <div className="bg-black h-screen">
       <Nav

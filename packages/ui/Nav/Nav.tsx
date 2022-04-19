@@ -5,7 +5,8 @@ import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 import { ProfileMenu } from "./ProfileMenu";
 import MobileNav from "./MobileNav";
-
+import Image from "next/image";
+import logo from "./Logo.jpeg";
 export type NavOption = {
   name: string;
   href: string;
@@ -37,16 +38,26 @@ export const Nav = ({
               <>
                 <div className="flex items-center px-2 lg:px-0">
                   <div className="flex-shrink-0">
-                    <img
-                      className="block lg:hidden h-8 w-auto"
-                      src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
-                      alt="Workflow"
-                    />
-                    <img
-                      className="hidden lg:block h-8 w-auto"
-                      src="https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg"
-                      alt="Workflow"
-                    />
+                    <div className="block lg:hidden mb-2 h-8 w-auto">
+                      <Image src={logo} width={40} height={40} alt="Workflow" />
+                    </div>
+                    <div className="hidden lg:block w-auto flex-row ">
+                      <div className="flex flex-row">
+                        <Image
+                          src={logo}
+                          width={40}
+                          height={40}
+                          alt="Workflow"
+                        />{" "}
+                        <h2 className="text-rose-400 font-bold text-2xl ml-4 mt-1  inline-block text-center align-middle">
+                          Wiker{"   "}
+                        </h2>
+                        <h2 className="text-white font-bold text-2xl mt-1  inline-block text-center align-middle">
+                          {" "}
+                          Music
+                        </h2>
+                      </div>
+                    </div>
                   </div>
                   <div className="hidden lg:block lg:ml-6">
                     {options.map((option) => {
