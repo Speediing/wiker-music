@@ -10,7 +10,6 @@ interface HistoryCardProps {
   buttonType: "badge" | "button";
 }
 export const HistoryCard = ({ track, index, buttonType }: HistoryCardProps) => {
-  console.log(buttonType);
   return (
     <li
       key={track.name + index.toString()}
