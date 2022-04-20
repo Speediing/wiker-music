@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSpotifyTokensFromAuthCode } from "../../utils/helpers/spotifyHelpers";
+import { getStatSigUserId } from "../../utils/helpers/statsigHelpers";
+import { getStatSigPodcastButtonType } from "../../utils/helpers/statsigHelpers";
 import statsig from "statsig-node";
 
 const UID_COOKIE = "statsiguid";
@@ -17,25 +19,16 @@ export const middleware = async (req: NextRequest) => {
     url.searchParams.set("userToken", responseJson.access_token);
     return NextResponse.redirect(url);
   }
-
-  await statsig.initialize(process.env.STATSIG_SERVER_API_KEY as string, {
-    initTimeoutMs: 1000,
-  });
-
-  let userID = req.cookies[UID_COOKIE];
-
-  if (!userID) {
-    userID = crypto.randomUUID();
-  }
-
-  const experiment = await statsig.getExperiment({ userID }, "podcast_button");
-  const type = experiment.get("type", "badge");
   const response = NextResponse.next();
 
+  let userID = getStatSigUserId(req.cookies[UID_COOKIE]);
   if (!req.cookies[UID_COOKIE]) {
     response.cookie(UID_COOKIE, userID);
   }
-  response.cookie(PODCAST_BUTTON_TYPE, type);
+  if (!req.cookies[PODCAST_BUTTON_TYPE]) {
+    const type = await getStatSigPodcastButtonType(userID);
+    response.cookie(PODCAST_BUTTON_TYPE, type);
+  }
 
   return response;
 };
