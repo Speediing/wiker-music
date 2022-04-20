@@ -54,8 +54,8 @@ export default async function handler(
     accessToken || ""
   );
 
-  await incrementSearchCount(redis);
-
+  let count = await incrementSearchCount(redis);
+  if (count % 10 === 0) res.unstable_revalidate("/");
   res.status(200).json({
     artistName,
     eps: episodes
