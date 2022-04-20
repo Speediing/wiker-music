@@ -42,7 +42,7 @@ export const HistoryCard = ({ track, index, buttonType }: HistoryCardProps) => {
                 href={`podcast?search=${track.artists[0].name}`}
                 passHref={true}
               >
-                <button className="mt-2 block rounded-md border px-9 py-3 border-rose-500 bg-black text-base font-small text-white shadow hover:bg-rose-600 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 sm:px-10">
+                <button className="mt-2 block rounded-md border px-9 py-3 border-rose-500 bg-black text-base font-small text-white shadow hover:bg-rose-600 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 sm:px-10">
                   Podcasts
                 </button>
               </Link>
