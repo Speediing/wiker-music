@@ -14,24 +14,37 @@ export const formatWikipediaName = (artist: string) => {
 export const getBandNamesAndRolesFromWikipedia = async (artistName: string) => {
   let names: string[] = [];
   let roles: string[] = [];
+  let formattedName = formatWikipediaName(artistName);
   let { data, status } = await axios.get(
-    `https://en.wikipedia.org/wiki/${formatWikipediaName(artistName)}`
+    `https://en.wikipedia.org/wiki/${formattedName}`
   );
   if (status === 404) throw Error(`Not found: ${artistName}`);
-  {
-  }
+
   let $ = cheerio.load(data);
-  if (
-    $("#mw-content-text > div.mw-parser-output > p")
-      .text()
-      .includes("may refer to") ||
-    $("#mw-content-text > div.mw-parser-output > div:nth-child(4)")
-      .text()
-      .includes("For other uses, see")
-  ) {
+  //If a name has multiple options (ie: frog) then try with _band
+  let text1 = $("#mw-content-text > div.mw-parser-output > p").text();
+  let text2 = $(
+    "#mw-content-text > div.mw-parser-output > div:nth-child(4)"
+  ).text();
+  let text3 = $(
+    "#mw-content-text > div.mw-parser-output > div:nth-child(3)"
+  ).text();
+  let isBand = false;
+  [text1, text2, text3].forEach((text) => {
+    if (
+      text.includes("may refer to") ||
+      (!text.includes("musical group") &&
+        !text.includes("band") &&
+        text.includes("For other uses, see"))
+    ) {
+      isBand = true;
+    }
+  });
+  if (isBand) {
     let bandData = await axios.get(
-      `https://en.wikipedia.org/wiki/${artistName}_(band)`
+      `https://en.wikipedia.org/wiki/${formattedName}_(band)`
     );
+
     data = bandData.data;
     $ = cheerio.load(data);
   }
@@ -45,27 +58,48 @@ export const getBandNamesAndRolesFromWikipedia = async (artistName: string) => {
     $(el)
       .children()
       .each((_idx: any, el: any) => {
-        if (!found && $(el).text() === "Members") {
+        if (!found && $(el).text().toLowerCase().includes("members")) {
           found = true;
         }
       });
   });
 
-  $(
-    `#mw-content-text > div.mw-parser-output > table.infobox.vcard.plainlist > tbody > tr:nth-child(${artistIndex}) > td > div > ul > li`
-  ).each((_idx: any, el: any) => {
-    names.push($(el).text());
-  });
-  if (names.length === 0 && found) {
+  if (found) {
+    let members = $(
+      "#mw-content-text > div.mw-parser-output > table.infobox.vcard.plainlist > tbody > tr:nth-child(11) > td"
+    );
+    if (members.children().length === 1) {
+      members.children().each((_idx: any, el: any) => {
+        let name = $(el).text();
+        if (name.length > 0)
+          names = [...name.split("\n").filter((x: any) => x !== "")];
+      });
+    } else {
+      try {
+        names = [
+          ...members
+            .html()
+            .split("<br>")
+            .filter((x: any) => !x.includes("<a")),
+        ];
+      } catch (e) {
+        console.log(e);
+      }
+      members.children().each((_idx: any, el: any) => {
+        let name = $(el).text();
+        if (name.length > 0) names.push(name);
+      });
+    }
+  }
+
+  if (found) {
     $(
       `#mw-content-text > div.mw-parser-output > table.infobox.vcard.plainlist > tbody > tr:nth-child(${artistIndex}) > td > ul > li`
     ).each((_idx: any, el: any) => {
       names.push($(el).text());
     });
-  }
-  if (names.length === 0 && found) {
     $(
-      `#mw-content-text > div.mw-parser-output > table > tbody > tr:nth-child(8) > td`
+      `#mw-content-text > div.mw-parser-output > table.infobox.vcard.plainlist > tbody > tr:nth-child(${artistIndex}) > td > div > ul > li`
     ).each((_idx: any, el: any) => {
       names.push($(el).text());
     });
