@@ -7,12 +7,13 @@ import { Header } from "../../components/Core/Header";
 import { HistoryCard } from "../../components/History/HistoryCard";
 import { UseProfile } from "../../hooks/UseProfile";
 import { isLoggedIn, loginUrl } from "../../utils/helpers/authHelpers";
+import cookie from "react-cookie";
 
 function History() {
   const router = useRouter();
   const { profileUrl } = UseProfile();
   const { data } = useSWR("me/player/recently-played?limit=50");
-
+  const buttonType = cookie.load("podcastButtonType");
   const options = [
     { name: "History", href: "/history", current: true },
     { name: "Podcasts", href: "/podcast", current: false },
@@ -56,7 +57,13 @@ function History() {
               >
                 {data?.items?.map((item: any, index: number) => {
                   let { track } = item;
-                  return <HistoryCard track={track} index={index} />;
+                  return (
+                    <HistoryCard
+                      track={track}
+                      index={index}
+                      buttonType={buttonType}
+                    />
+                  );
                 })}
               </ul>
             </motion.div>

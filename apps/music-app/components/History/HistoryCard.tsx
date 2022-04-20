@@ -2,12 +2,15 @@ import { MusicNoteIcon, StarIcon } from "@heroicons/react/solid";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { Button } from "ui";
 import { formatAlbum, formatArtist } from "../../utils/helpers/rymHelper";
 interface HistoryCardProps {
   track: any;
   index: number;
+  buttonType: "badge" | "button";
 }
-export const HistoryCard = ({ track, index }: HistoryCardProps) => {
+export const HistoryCard = ({ track, index, buttonType }: HistoryCardProps) => {
+  console.log(buttonType);
   return (
     <li
       key={track.name + index.toString()}
@@ -27,12 +30,23 @@ export const HistoryCard = ({ track, index }: HistoryCardProps) => {
           <dt className="sr-only">Title</dt>
           <dd className="text-gray-200 text-sm">{track.artists[0].name}</dd>
           <dt className="sr-only">Role</dt>
-          <dd className="mt-3">
-            <Link href={`podcast?search=${track.artists[0].name}`}>
-              <a className="px-2 py-1 text-rose-900 text-xs font-medium bg-rose-100 rounded-full hover:bg-rose-300">
-                Podcasts
-              </a>
-            </Link>
+          <dd className="mt-3 flex justify-center">
+            {buttonType === "badge" ? (
+              <Link href={`podcast?search=${track.artists[0].name}`}>
+                <a className="px-2 py-1 text-rose-900 text-xs font-medium bg-rose-100 rounded-full hover:bg-rose-300">
+                  Podcasts
+                </a>
+              </Link>
+            ) : (
+              <Link
+                href={`podcast?search=${track.artists[0].name}`}
+                passHref={true}
+              >
+                <button className="mt-2 block rounded-md border px-9 py-3 border-rose-500 bg-black text-base font-small text-white shadow hover:bg-rose-600 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 sm:px-10">
+                  Podcasts
+                </button>
+              </Link>
+            )}
           </dd>
         </dl>
       </div>
