@@ -78,7 +78,7 @@ function Hero() {
             </svg>
           </div>
           <div className="relative pl-4  -mr-40 sm:mx-auto sm:max-w-3xl sm:px-0 lg:max-w-none lg:h-full lg:pl-12 ">
-            <div className="w-full drop-shadow-2xl shadow-zinc-800 shadow-xl ring-1 ring-black ring-opacity-5  lg:w-auto lg:max-w-none ">
+            <div className="w-full shadow-2xl shadow-zinc-800 ring-1 ring-black ring-opacity-5  lg:w-auto lg:max-w-none ">
               <Image
                 className="rounded-md"
                 height={2391}
