@@ -1,3 +1,4 @@
+import Head from "next/head";
 import CTA from "../components/Marketing/CTA";
 import Hero from "../components/Marketing/Hero";
 import Stats from "../components/Marketing/Stats";
@@ -22,6 +23,13 @@ export async function getStaticProps() {
 export default function Index({ stats }: any) {
   return (
     <div className="bg-black">
+      <Head>
+        <title>Wiker Music</title>
+        <meta charSet="UTF-8" />
+        <meta name="keywords" content="music, meta, nextjs" />
+        <meta name="author" content="Jason Wiker" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      </Head>
       <main>
         {/* Hero section */}
         <Hero />
