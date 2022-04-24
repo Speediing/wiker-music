@@ -38,6 +38,7 @@ function History() {
       <Head>
         <title>History</title>
         <meta charSet="UTF-8" />
+        <meta name="description" content="music history" />
         <meta name="keywords" content="music, meta, nextjs, history" />
         <meta name="author" content="Jason Wiker" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />

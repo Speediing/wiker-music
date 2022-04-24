@@ -26,6 +26,7 @@ export default function Index({ stats }: any) {
       <Head>
         <title>Wiker Music</title>
         <meta charSet="UTF-8" />
+        <meta name="description" content="Wiker Music Landing" />
         <meta name="keywords" content="music, meta, nextjs" />
         <meta name="author" content="Jason Wiker" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />

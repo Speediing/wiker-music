@@ -46,6 +46,7 @@ export default function Podcast({ data }: any) {
       <Head>
         <title>Podcasts</title>
         <meta charSet="UTF-8" />
+        <meta name="description" content="podcast history" />
         <meta name="keywords" content="music, meta, nextjs, podcasts" />
         <meta name="author" content="Jason Wiker" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
