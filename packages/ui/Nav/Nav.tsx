@@ -17,7 +17,7 @@ export type NavOption = {
 export interface NavProps {
   options: NavOption[];
   loggedIn: boolean;
-  loginUrl: string;
+  onLogin: () => void;
   showSearch: boolean;
   profileUrl: string;
   onSearch: (search: string) => void;
@@ -25,7 +25,7 @@ export interface NavProps {
 export const Nav = ({
   options,
   loggedIn,
-  loginUrl,
+  onLogin,
   showSearch,
   profileUrl,
   onSearch,
@@ -100,12 +100,19 @@ export const Nav = ({
                   </div>
                 )}
                 {!loggedIn && (
-                  <a
-                    href={loginUrl}
-                    className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
-                  >
-                    Log In
-                  </a>
+                  <div>
+                    <button
+                      onClick={onLogin}
+                      className="bg-black text-white px-3 py-2 rounded-md text-sm font-medium  mr-2"
+                    >
+                      Log In
+                    </button>
+                    <Link href={"/signup"}>
+                      <a className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">
+                        Sign Up
+                      </a>
+                    </Link>
+                  </div>
                 )}
               </>
               {loggedIn && (

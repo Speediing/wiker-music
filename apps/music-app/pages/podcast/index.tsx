@@ -3,11 +3,12 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import { Nav, NavOption } from "ui";
-import { Header } from "../components/Core/Header";
-import PodcastRow from "../components/Podcasts/PodcastRow";
-import { PodcastSearch } from "../components/Podcasts/PodcastSearch";
-import { UseProfile } from "../hooks/UseProfile";
-import { isLoggedIn, loginUrl } from "../utils/helpers/authHelpers";
+import { Header } from "../../components/Core/Header";
+import PodcastRow from "../../components/Podcasts/PodcastRow";
+import { PodcastSearch } from "../../components/Podcasts/PodcastSearch";
+import { UseProfile } from "../../hooks/UseProfile";
+import { isLoggedIn, loginUrl } from "../../utils/helpers/authHelpers";
+import { supabase } from "../../utils/helpers/supabaseHelper";
 
 export async function getServerSideProps(context: any) {
   if (!context.query.search) {
@@ -40,13 +41,17 @@ export default function Podcast({ data }: any) {
     }
   }, []);
 
+  async function signInWithSpotify() {
+    document.location.href = loginUrl;
+  }
+
   return (
     <div className="bg-black h-screen">
       <Nav
         onSearch={(search) => router.push(`/podcast?search=${search}`)}
         options={options}
         loggedIn={isLoggedIn()}
-        loginUrl={loginUrl}
+        onLogin={signInWithSpotify}
         showSearch={router.query.search !== undefined}
         profileUrl={profileUrl}
       />
