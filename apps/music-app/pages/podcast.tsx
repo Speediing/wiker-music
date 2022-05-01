@@ -8,6 +8,7 @@ import { Header } from "../components/Core/Header";
 import PodcastRow from "../components/Podcasts/PodcastRow";
 import { PodcastSearch } from "../components/Podcasts/PodcastSearch";
 import { UseProfile } from "../hooks/UseProfile";
+import { getPodcastsFromArtist } from "../utils/helpers/api/controllers/PodcastController";
 import { isLoggedIn, loginUrl } from "../utils/helpers/authHelpers";
 
 export async function getServerSideProps(context: any) {
@@ -16,11 +17,9 @@ export async function getServerSideProps(context: any) {
       props: {},
     };
   }
-  let podcasts = await fetch(
-    `${process.env.NEXT_PUBLIC_HOSTNAME}/api/podcastSearch?search=${context.query.search}`
-  );
+
   try {
-    let data = await podcasts.json();
+    let data = await getPodcastsFromArtist(context.query.search);
     return { props: { data } };
   } catch (error) {
     return { props: { data: {} } };
