@@ -46,8 +46,8 @@ export const getPodcastsFromArtist = async (artist: string) => {
     accessToken || ""
   );
 
-  //   let count = await incrementSearchCount(redis);
-  //   if (count % 10 === 0) res.unstable_revalidate("/");
+  // let count = await incrementSearchCount(redis);
+  // if (count % 10 === 0) res.unstable_revalidate("/");
   return {
     artistName,
     eps: episodes
@@ -62,18 +62,4 @@ export const getPodcastsFromArtist = async (artist: string) => {
           .includes(ep.artist.toLowerCase() || artistName.toLowerCase())
       ),
   };
-  res.status(200).json({
-    artistName,
-    eps: episodes
-      .sort((a: any, b: any) => b.release_date.localeCompare(a.release_date))
-      .filter(
-        (value: any, index: number, self: any) =>
-          index === self.findIndex((t: any) => t.uri === value.uri)
-      )
-      .filter((ep: any) =>
-        ep.description
-          .toLowerCase()
-          .includes(ep.artist.toLowerCase() || artistName.toLowerCase())
-      ),
-  });
 };
